@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memes generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="init()">
+
+    <header class="header flex justify-between align-center">
+        <div>memegen</div>
+        <ul class="main-menu clean-list flex align-center">
+            <li><a href="#" onclick="onGalery()">Galery</a></li>
+            <li><a href="#">Memes</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </header>
+
+    <section class="search-bar flex justify-between align-center">
+        <input type="search" placeholder="search">
+        <div class="tags-container flex">
+            <div>tag</div>
+            <div>tag</div>
+            <div>tag</div>
+            <div>tag</div>
+            <div>tag</div>
+        </div>
+    </section>
+
+    <main class="images-container"></main>
+    
+
+    <main class="meme-editor flex hidden">
+        <section class="canvas-container">
+            <canvas id="my-canvas" width="500" height="500"></canvas>
+        </section>
+        <section class="control-box">
+            <input type="text" placeholder="text line" oninput="updateText(this)">
+            <button>⬆⬇</button>
+            <button>➕</button>
+        </section>
+    </main>
+
+
+    <script src="js/utils.js"></script>
+    <script src="js/meme-service.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

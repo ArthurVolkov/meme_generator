@@ -1,0 +1,101 @@
+/* FONTS */
+
+
+
+
+
+
+
+
+/* LAYOUT */
+
+
+
+
+
+
+
+/* MAIN */
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+/* COMPONENTS */
+
+
+/* Header */
+
+.header {
+    background-color: orange;
+    padding: 0 20px;
+}
+
+.header ul {
+    height: 50px;
+}
+
+.header a{
+    padding: 0 20px;
+}
+
+/* Search-bar */
+
+.search-bar {
+    background-color: peachpuff;
+    padding: 0 20px;
+    height: 50px;
+}
+
+.tags-container * {
+    padding: 0 10px;
+}
+
+
+/* Galery */
+
+.images-container {
+    /* display: none; */
+}
+
+.galery-img {
+    height: 200px;
+    margin: 10px;
+}
+
+
+/* Meme-editor */
+
+#my-canvas {
+    outline: 2px solid green;
+}
+
+/* HELPERS */
+
+.clean-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
