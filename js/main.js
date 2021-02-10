@@ -1,11 +1,6 @@
 'use strict'
 
 
-var gElCanvas;
-var gCtx;
-
-
-
 
 
 function init() {
@@ -43,4 +38,9 @@ function onMemeEditor(idx) {
 function onGalery() {
     document.querySelector('.images-container').classList.remove('hidden')
     document.querySelector('.meme-editor').classList.add('hidden')
+}
+
+
+function onNewLine() {
+    newLine()
 }

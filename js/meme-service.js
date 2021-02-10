@@ -1,7 +1,11 @@
 'use strict'
 
 
-var gKeywords = { 'happy': 12, 'funny puk': 1 }
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
+var gKeywords = { 'happy': 12, 'funny puk': 1 };
+var gElCanvas;
+var gCtx;
+
 var gImgs = [
     { id: 1, url: '../images/1.jpg', keywords: ['happy'] },
     { id: 2, url: '../images/2.jpg', keywords: ['happy'] },
@@ -28,21 +32,27 @@ var gMeme = {
     selectedLineIdx: 0,
     lines: [
         {
+            pos: {},
             txt: 'I never eat Falafel',
-            size: 20,
-            align: 'left',
-            color: 'red'
+            size: 40,
+            align: 'center',
+            color: 'white',
+            isDragging: false
         }
-    ]
+    ],
 }
 
+var gCurrLine = gMeme.lines[0]
 
 function updateMeme(idx) {
+    gCurrLine.pos.x = gElCanvas.width / 2
+    gCurrLine.pos.y = gElCanvas.height / 2
     gMeme.selectedImgId = idx;
 }
 
 function updateText(elInput) {
-    gMeme.lines[0].txt = elInput.value
+
+    gCurrLine.txt = elInput.value
     renderCanvas()
 }
 
@@ -51,7 +61,7 @@ function renderCanvas() {
 }
 
 
-function drawImg(idx, callback=console.log) {
+function drawImg(idx, callback = console.log) {
     gMeme.selectedImgId = idx
     const img = new Image()
     img.src = `../images/${gMeme.selectedImgId}.jpg`;
@@ -64,17 +74,34 @@ function drawImg(idx, callback=console.log) {
 
 
 function renderText() {
-    drawText (gMeme.lines[0].txt, gElCanvas.width/2, gElCanvas.height/2)
+    let currLine = gCurrLine;
+    gMeme.lines.forEach((line) => {
+        gCurrLine = line;
+        drawText()
+    })
+    gCurrLine = currLine
 }
 
 
-function drawText(text, x, y) {
+function drawText() {
+    let text = gCurrLine.txt;
+    let x = gCurrLine.pos.x;
+    let y = gCurrLine.pos.y;
     gCtx.beginPath()
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'red'
+    gCtx.strokeStyle = 'black'
     gCtx.fillStyle = 'white'
     gCtx.font = '40px Impact'
     gCtx.textAlign = 'center'
+
+
+    var fontSize = 40
+    var lineHeight = fontSize * 1.3
+    var textWidth = gCtx.measureText(text).width;
+    gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + 10, textWidth + 20, lineHeight);
+
+
+
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
@@ -109,29 +136,90 @@ function addTouchListeners() {
 
 function onDown(ev) {
     const pos = getEvPos(ev)
-    // if (!isCirlceClicked(pos)) return
-    // gCircle.isDragging = true
+
+    if (!isLineClicked(pos)) return
+    gCurrLine.isDragging = true
     // gStartPos = pos
-    // document.body.style.cursor = 'grabbing'
+    document.body.style.cursor = 'grabbing'
 
 }
 
 function onMove(ev) {
-    // if (gCircle.isDragging) {
-    //     const pos = getEvPos(ev)
-    //     const dx = pos.x - gStartPos.x
-    //     const dy = pos.y - gStartPos.y
+    if (gCurrLine.isDragging) {
+        // console.log('gCurrLine:', gCurrLine)
+        const pos = getEvPos(ev)
+        // const dx = pos.x - gStartPos.x
+        // const dy = pos.y - gStartPos.y
 
-    //     gCircle.pos.x += dx
-    //     gCircle.pos.y += dy
+        // gCircle.pos.x += dx
+        // gCircle.pos.y += dy
+        // gStartPos = pos
+        // renderCanvas()
+        // renderCircle()
 
-    //     gStartPos = pos
-    //     renderCanvas()
-    //     renderCircle()
-    // }
+        gCurrLine.pos.x = pos.x;
+        gCurrLine.pos.y = pos.y;
+        // console.log('gCurrLine onMuve:', gCurrLine)
+        renderCanvas()
+        // drawText()
+    }
 }
 
 function onUp() {
-    // gCircle.isDragging = false
-    // document.body.style.cursor = 'grab'
+    gCurrLine.isDragging = false
+    // console.log('gCurrLine onup:', gCurrLine)
+    document.body.style.cursor = 'default'
+}
+
+
+function newLine() {
+    let line = {
+        pos: {},
+        txt: 'New Line',
+        size: 40,
+        align: 'center',
+        color: 'white',
+        isDragging: false
+    }
+    gMeme.lines.push(line)
+    gCurrLine = gMeme.lines[gMeme.lines.length - 1]
+    gCurrLine.pos.x = gElCanvas.width / 2
+    gCurrLine.pos.y = gElCanvas.height / 2
+    renderText()
+}
+
+
+
+function getEvPos(ev) {
+    var pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    if (gTouchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
+    }
+    return pos
+}
+
+function isLineClicked(clickedPos) {
+
+
+    let currLine = gMeme.lines.find((line) => {
+        let lineHeight = line.size * 1.3
+        let textWidth = gCtx.measureText(line.txt).width;
+        return clickedPos.x > line.pos.x - textWidth / 2 - 10 &&
+            clickedPos.x < line.pos.x + textWidth / 2 + 20 &&
+            clickedPos.y > line.pos.y - lineHeight + 10 &&
+            clickedPos.y < line.pos.y + 10
+    })
+    if (currLine) {
+        gCurrLine = currLine
+        // console.log('gCurrLine isLineClicked:', gCurrLine)
+        return true
+    }
 }
