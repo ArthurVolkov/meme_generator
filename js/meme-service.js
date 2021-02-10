@@ -3,7 +3,7 @@
 
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 var gKeywords = { 'happy': 12, 'funny puk': 1 };
-var gElCanvas;
+var gElCanvas = document.getElementById('my-canvas');
 var gCtx;
 
 var gImgs = [
@@ -32,8 +32,22 @@ var gMeme = {
     selectedLineIdx: 0,
     lines: [
         {
-            pos: {},
-            txt: 'I never eat Falafel',
+            txt: 'Line 1',
+            size: 40,
+            pos: {
+                x: gElCanvas.width / 2,
+                y: 50
+            },
+            align: 'center',
+            color: 'white',
+            isDragging: false
+        },
+        {
+            pos: {
+                x: gElCanvas.width / 2,
+                y: gElCanvas.height - 20
+            },
+            txt: 'line 2',
             size: 40,
             align: 'center',
             color: 'white',
@@ -42,17 +56,16 @@ var gMeme = {
     ],
 }
 
-var gCurrLine = gMeme.lines[0]
+// var gMeme.lines[gMeme.selectedLineIdx] = gMeme.lines[0]
 
 function updateMeme(idx) {
-    gCurrLine.pos.x = gElCanvas.width / 2
-    gCurrLine.pos.y = gElCanvas.height / 2
+
     gMeme.selectedImgId = idx;
 }
 
 function updateText(elInput) {
 
-    gCurrLine.txt = elInput.value
+    gMeme.lines[gMeme.selectedLineIdx].txt = elInput.value
     renderCanvas()
 }
 
@@ -74,36 +87,36 @@ function drawImg(idx, callback = console.log) {
 
 
 function renderText() {
-    let currLine = gCurrLine;
-    gMeme.lines.forEach((line) => {
-        gCurrLine = line;
-        drawText()
+    let currLineIdx = gMeme.selectedLineIdx;
+    gMeme.lines.forEach((line, idx) => {
+        gMeme.selectedLineIdx = idx;
+        if (idx === currLineIdx) {
+            drawText('selected')
+        } else drawText()
     })
-    gCurrLine = currLine
+    gMeme.selectedLineIdx = currLineIdx
 }
 
 
-function drawText() {
-    let text = gCurrLine.txt;
-    let x = gCurrLine.pos.x;
-    let y = gCurrLine.pos.y;
+function drawText(selected = 0) {
+    let text = gMeme.lines[gMeme.selectedLineIdx].txt;
+    let x = gMeme.lines[gMeme.selectedLineIdx].pos.x;
+    let y = gMeme.lines[gMeme.selectedLineIdx].pos.y;
     gCtx.beginPath()
     gCtx.lineWidth = 2
     gCtx.strokeStyle = 'black'
     gCtx.fillStyle = 'white'
     gCtx.font = '40px Impact'
     gCtx.textAlign = 'center'
+    gCtx.fillText(text, x, y)
+    gCtx.strokeText(text, x, y)
 
 
-    var fontSize = 40
+    gCtx.strokeStyle = selected ? 'green' : 'black'
+    var fontSize = gMeme.lines[gMeme.selectedLineIdx].size
     var lineHeight = fontSize * 1.3
     var textWidth = gCtx.measureText(text).width;
     gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + 10, textWidth + 20, lineHeight);
-
-
-
-    gCtx.fillText(text, x, y)
-    gCtx.strokeText(text, x, y)
 }
 
 
@@ -138,15 +151,13 @@ function onDown(ev) {
     const pos = getEvPos(ev)
 
     if (!isLineClicked(pos)) return
-    gCurrLine.isDragging = true
+    gMeme.lines[gMeme.selectedLineIdx].isDragging = true
     // gStartPos = pos
     document.body.style.cursor = 'grabbing'
-
 }
 
 function onMove(ev) {
-    if (gCurrLine.isDragging) {
-        // console.log('gCurrLine:', gCurrLine)
+    if (gMeme.lines[gMeme.selectedLineIdx].isDragging) {
         const pos = getEvPos(ev)
         // const dx = pos.x - gStartPos.x
         // const dy = pos.y - gStartPos.y
@@ -157,24 +168,27 @@ function onMove(ev) {
         // renderCanvas()
         // renderCircle()
 
-        gCurrLine.pos.x = pos.x;
-        gCurrLine.pos.y = pos.y;
-        // console.log('gCurrLine onMuve:', gCurrLine)
+        gMeme.lines[gMeme.selectedLineIdx].pos.x = pos.x;
+        gMeme.lines[gMeme.selectedLineIdx].pos.y = pos.y;
+
         renderCanvas()
         // drawText()
+
     }
 }
 
 function onUp() {
-    gCurrLine.isDragging = false
-    // console.log('gCurrLine onup:', gCurrLine)
+    gMeme.lines[gMeme.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'default'
 }
 
 
 function newLine() {
     let line = {
-        pos: {},
+        pos: {
+            x: gElCanvas.width / 2,
+            y: gElCanvas.height / 2
+        },
         txt: 'New Line',
         size: 40,
         align: 'center',
@@ -182,9 +196,9 @@ function newLine() {
         isDragging: false
     }
     gMeme.lines.push(line)
-    gCurrLine = gMeme.lines[gMeme.lines.length - 1]
-    gCurrLine.pos.x = gElCanvas.width / 2
-    gCurrLine.pos.y = gElCanvas.height / 2
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
+    // gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width / 2
+    // gMeme.lines[gMeme.selectedLineIdx].pos.y = gElCanvas.height / 2
     renderText()
 }
 
@@ -209,7 +223,7 @@ function getEvPos(ev) {
 function isLineClicked(clickedPos) {
 
 
-    let currLine = gMeme.lines.find((line) => {
+    let currLineIdx = gMeme.lines.findIndex((line) => {
         let lineHeight = line.size * 1.3
         let textWidth = gCtx.measureText(line.txt).width;
         return clickedPos.x > line.pos.x - textWidth / 2 - 10 &&
@@ -217,9 +231,16 @@ function isLineClicked(clickedPos) {
             clickedPos.y > line.pos.y - lineHeight + 10 &&
             clickedPos.y < line.pos.y + 10
     })
-    if (currLine) {
-        gCurrLine = currLine
-        // console.log('gCurrLine isLineClicked:', gCurrLine)
+    if (currLineIdx !== -1) {
+        gMeme.selectedLineIdx = currLineIdx
+        // console.log('gMeme.lines[gMeme.selectedLineIdx] isLineClicked:', gMeme.lines[gMeme.selectedLineIdx])
         return true
     }
+}
+
+
+
+
+function removeLine() {
+
 }

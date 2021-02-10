@@ -5,7 +5,6 @@
 
 function init() {
     renderImages(18)
-    gElCanvas = document.getElementById('my-canvas');
     gCtx = gElCanvas.getContext('2d');
     addListeners()
 
@@ -43,4 +42,8 @@ function onGalery() {
 
 function onNewLine() {
     newLine()
+}
+
+function onRemoveLine() {
+    removeLine()
 }
