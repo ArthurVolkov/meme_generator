@@ -37,14 +37,33 @@
         </section>
         <section class="control-box">
             <input type="text" placeholder="text line" oninput="updateText(this)">
-            <button>⬆⬇</button>
-            <button onclick="onNewLine()">➕</button>
-            <button onclick="onRemoveLine()">🗑</button>
-            <!-- <button onclick="onUpLine()">⬆</button>
-            <button onclick="onDownLine()">⬇</button>
-        </section> -->
+            <button onclick="onNewLine()" class="new-line"></button>
+            <button onclick="onRemoveLine()" class="remove"></button>
+            <button onclick="onChangeSize(2)" class="size-up"></button>
+            <button onclick="onChangeSize(-2)" class="size-down"></button>
+            <select name="font" id="font" onchange="onChangeFont(this)">
+                <option value="Impact">Impact</option>
+                <option value="Arial">Arial</option>
+                <option value="Arial Black">Arial Bold</option>
+                <option value="Times">Times</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Comic Sans MS">Comic Sans MS</option>
+                <option value="Brush script mt">Brush script mt</option>
+                <option value="Algerian">Algerian</option>
+            </select>
+            <div class="change-color">
+                <input type="color" onchange="onChangeColor(this)">
+            </div>
+            <div class="change-font-color">
+                <input type="color" onchange="onChangeFontColor(this)">
+            </div>
+            <button onclick="onIconsModal()">icons</button>
+        </section>
     </main>
 
+
+    <section class="icons-modal hidden">
+    </section>
 
     <script src="js/utils.js"></script>
     <script src="js/meme-service.js"></script>

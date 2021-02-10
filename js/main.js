@@ -27,6 +27,7 @@ function renderImages(count) {
 function onMemeEditor(idx) {
     document.querySelector('.images-container').classList.toggle('hidden')
     document.querySelector('.meme-editor').classList.toggle('hidden')
+    document.querySelector('.search-bar').classList.toggle('hidden')
     updateMeme(idx)
     renderCanvas()
 }
@@ -46,4 +47,34 @@ function onNewLine() {
 
 function onRemoveLine() {
     removeLine()
+}
+
+function onChangeSize(diff) {
+    changeSize(diff)
+}
+
+function onChangeFont(elInput) {
+    changeFont(elInput.value)
+}
+
+function onChangeColor(elInput) {
+    changeColor(elInput.value)
+}
+
+function onChangeFontColor(elInput) {
+    changeFontColor(elInput.value)
+}
+
+
+function onIconsModal() {
+    renderIcons()
+    document.querySelector('.icons-modal').classList.remove('hidden')
+}
+
+function onChoseIcon(idx) {
+    choseIcon(idx)
+}
+
+function onCloseModal() {
+    document.querySelector('.icons-modal').classList.add('hidden')
 }

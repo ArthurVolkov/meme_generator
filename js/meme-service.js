@@ -2,50 +2,36 @@
 
 
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
+var gIconsUnicode = [
+    'f556', 'f567', 'f06e', 'f579', 'f119', 'f57a', 'f57f', 'f580', 'f581', 'f582', 'f583', 'f584', 'f585', 'f586', 'f587', 'f588', 'f589', 'f58a', 'f58b', 'f58c'
+]
+var gIcons = [
+    '\uf556', '\uf567', '\uf06e', '\uf579', '\uf119', '\uf57a', '\uf57f', '\uf580', '\uf581', '\uf582', '\uf583', '\uf584', '\uf585', '\uf586', '\uf587', '\uf588', '\uf589', '\uf58a', '\uf58b', '\uf58c'
+]
 var gKeywords = { 'happy': 12, 'funny puk': 1 };
 var gElCanvas = document.getElementById('my-canvas');
 var gCtx;
 
 var gImgs = [
-    { id: 2, url: 'meme_generator/images/2.jpg', keywords: ['happy'] },
-    { id: 1, url: 'meme_generator/images/1.jpg', keywords: ['happy'] },
-    { id: 3, url: 'meme_generator/images/3.jpg', keywords: ['happy'] },
-    { id: 4, url: 'meme_generator/images/4.jpg', keywords: ['happy'] },
-    { id: 5, url: 'meme_generator/images/5.jpg', keywords: ['happy'] },
-    { id: 6, url: 'meme_generator/images/6.jpg', keywords: ['happy'] },
-    { id: 7, url: 'meme_generator/images/7.jpg', keywords: ['happy'] },
-    { id: 8, url: 'meme_generator/images/8.jpg', keywords: ['happy'] },
-    { id: 9, url: 'meme_generator/images/9.jpg', keywords: ['happy'] },
-    { id: 10, url: 'meme_generator/images/10.jpg', keywords: ['happy'] },
-    { id: 11, url: 'meme_generator/images/11.jpg', keywords: ['happy'] },
-    { id: 12, url: 'meme_generator/images/12.jpg', keywords: ['happy'] },
-    { id: 13, url: 'meme_generator/images/13.jpg', keywords: ['happy'] },
-    { id: 14, url: 'meme_generator/images/14.jpg', keywords: ['happy'] },
-    { id: 15, url: 'meme_generator/images/15.jpg', keywords: ['happy'] },
-    { id: 16, url: 'meme_generator/images/16.jpg', keywords: ['happy'] },
-    { id: 17, url: 'meme_generator/images/17.jpg', keywords: ['happy'] },
-    { id: 18, url: 'meme_generator/images/18.jpg', keywords: ['happy'] },
+    { id: 2, url: 'images/2.jpg', keywords: ['happy'] },
+    { id: 1, url: 'images/1.jpg', keywords: ['happy'] },
+    { id: 3, url: 'images/3.jpg', keywords: ['happy'] },
+    { id: 4, url: 'images/4.jpg', keywords: ['happy'] },
+    { id: 5, url: 'images/5.jpg', keywords: ['happy'] },
+    { id: 6, url: 'images/6.jpg', keywords: ['happy'] },
+    { id: 7, url: 'images/7.jpg', keywords: ['happy'] },
+    { id: 8, url: 'images/8.jpg', keywords: ['happy'] },
+    { id: 9, url: 'images/9.jpg', keywords: ['happy'] },
+    { id: 10, url: 'images/10.jpg', keywords: ['happy'] },
+    { id: 11, url: 'images/11.jpg', keywords: ['happy'] },
+    { id: 12, url: 'images/12.jpg', keywords: ['happy'] },
+    { id: 13, url: 'images/13.jpg', keywords: ['happy'] },
+    { id: 14, url: 'images/14.jpg', keywords: ['happy'] },
+    { id: 15, url: 'images/15.jpg', keywords: ['happy'] },
+    { id: 16, url: 'images/16.jpg', keywords: ['happy'] },
+    { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
+    { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
-// var gImgs = [
-//     { id: 2, url: 'images/2.jpg', keywords: ['happy'] },
-//     { id: 1, url: 'images/1.jpg', keywords: ['happy'] },
-//     { id: 3, url: 'images/3.jpg', keywords: ['happy'] },
-//     { id: 4, url: 'images/4.jpg', keywords: ['happy'] },
-//     { id: 5, url: 'images/5.jpg', keywords: ['happy'] },
-//     { id: 6, url: 'images/6.jpg', keywords: ['happy'] },
-//     { id: 7, url: 'images/7.jpg', keywords: ['happy'] },
-//     { id: 8, url: 'images/8.jpg', keywords: ['happy'] },
-//     { id: 9, url: 'images/9.jpg', keywords: ['happy'] },
-//     { id: 10, url: 'images/10.jpg', keywords: ['happy'] },
-//     { id: 11, url: 'images/11.jpg', keywords: ['happy'] },
-//     { id: 12, url: 'images/12.jpg', keywords: ['happy'] },
-//     { id: 13, url: 'images/13.jpg', keywords: ['happy'] },
-//     { id: 14, url: 'images/14.jpg', keywords: ['happy'] },
-//     { id: 15, url: 'images/15.jpg', keywords: ['happy'] },
-//     { id: 16, url: 'images/16.jpg', keywords: ['happy'] },
-//     { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
-//     { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
-// ];
 
 var gMeme = {
     selectedImgId: 5,
@@ -60,6 +46,8 @@ var gMeme = {
             },
             align: 'center',
             color: 'white',
+            stroke: 'black',
+            font: 'Impact',
             isDragging: false
         },
         {
@@ -71,6 +59,8 @@ var gMeme = {
             size: 40,
             align: 'center',
             color: 'white',
+            stroke: 'black',
+            font: 'Impact',
             isDragging: false
         }
     ],
@@ -84,7 +74,7 @@ function updateMeme(idx) {
 }
 
 function updateText(elInput) {
-
+    if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].txt = elInput.value
     renderCanvas()
 }
@@ -122,19 +112,22 @@ function drawText(selected = 0) {
     let text = gMeme.lines[gMeme.selectedLineIdx].txt;
     let x = gMeme.lines[gMeme.selectedLineIdx].pos.x;
     let y = gMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let fontSize = gMeme.lines[gMeme.selectedLineIdx].size
+    let font = gMeme.lines[gMeme.selectedLineIdx].font
+    let color = gMeme.lines[gMeme.selectedLineIdx].color
+    let stroke = gMeme.lines[gMeme.selectedLineIdx].stroke
     gCtx.beginPath()
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'black'
-    gCtx.fillStyle = 'white'
-    gCtx.font = '40px Impact'
+    gCtx.strokeStyle = stroke
+    gCtx.fillStyle = color
+    gCtx.font = `${fontSize}px ${font}`
     gCtx.textAlign = 'center'
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 
 
     gCtx.strokeStyle = selected ? 'green' : 'black'
-    var fontSize = gMeme.lines[gMeme.selectedLineIdx].size
-    var lineHeight = fontSize * 1.3
+    var lineHeight = fontSize * 1.25
     var textWidth = gCtx.measureText(text).width;
     gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + 10, textWidth + 20, lineHeight);
 }
@@ -177,7 +170,7 @@ function onDown(ev) {
 }
 
 function onMove(ev) {
-    if (gMeme.lines[gMeme.selectedLineIdx].isDragging) {
+    if (gMeme.lines.length !== 0 && gMeme.lines[gMeme.selectedLineIdx].isDragging) {
         const pos = getEvPos(ev)
         // const dx = pos.x - gStartPos.x
         // const dy = pos.y - gStartPos.y
@@ -198,6 +191,7 @@ function onMove(ev) {
 }
 
 function onUp() {
+    if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'default'
 }
@@ -213,6 +207,8 @@ function newLine() {
         size: 40,
         align: 'center',
         color: 'white',
+        stroke: 'black',
+        font: 'Impact',
         isDragging: false
     }
     gMeme.lines.push(line)
@@ -262,5 +258,73 @@ function isLineClicked(clickedPos) {
 
 
 function removeLine() {
+    if (gMeme.lines.length === 0) return
+    gMeme.lines.splice([gMeme.selectedLineIdx], 1)
+    gMeme.selectedLineIdx = 0
+    renderCanvas()
+}
 
+
+
+function changeSize(diff) {
+    if (gMeme.lines[gMeme.selectedLineIdx].size + diff <= 20 ||
+        gMeme.lines[gMeme.selectedLineIdx].size + diff >= 120) return
+    gMeme.lines[gMeme.selectedLineIdx].size += diff
+    renderCanvas()
+}
+
+
+
+
+function changeFont(font) {
+    gMeme.lines[gMeme.selectedLineIdx].font = font;
+    renderCanvas()
+}
+
+
+function changeColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].color = color;
+    renderCanvas()
+}
+
+function changeFontColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].stroke = color;
+    renderCanvas()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function renderIcons() {
+    var strHTML = gIconsUnicode.map((icon, idx) => {
+
+        return `<div onclick="onChoseIcon(${idx})">
+        <i class=icon-foo>&#x${icon};</i>
+        </div>`
+    })
+    document.querySelector('.icons-modal').innerHTML = strHTML.join('')
+}
+
+
+function choseIcon(idx) {
+    newLine()
+
+    
+    gMeme.lines[gMeme.selectedLineIdx].font = 'awesome'
+    document.querySelector('canvas').classList.toggle('awesome')
+    gMeme.lines[gMeme.selectedLineIdx].txt = `${gIcons[idx]}`
+    gMeme.lines[gMeme.selectedLineIdx].size = 80
+    renderCanvas()
+    document.querySelector('canvas').classList.toggle('awesome')
+    onCloseModal()
 }
