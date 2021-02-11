@@ -188,7 +188,7 @@ select {
 
 .control-box .new-line {
     background: url(../images/icons/add.png) center no-repeat palegreen;
-    background-size: 65%;
+    background-size: contain;
     grid-column: 2 / 3;
     grid-row: 2 / 3;
 }
@@ -196,21 +196,21 @@ select {
 
 .control-box .remove {
     background: url(../images/icons/trash.png) center no-repeat crimson;
-    background-size: 65%;
+    background-size: contain;
     grid-column: 4 / 5;
     grid-row: 2 / 3;
 }
 
 .control-box .size-up {
     background: url(../images/icons/increase\ font\ -\ icon.png) center no-repeat palegreen;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 1 / 2;
     grid-row: 3 / 4;
 }
 
 .control-box .size-down {
     background: url(../images/icons/decrease\ font\ -\ icon.png) center no-repeat palegreen;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 5 / 6;
     grid-row: 3 / 4;
 }
@@ -226,19 +226,19 @@ select {
 
 .control-box .line-left {
     background: url(../images/icons/align-to-left.png) center no-repeat palegreen;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 2 / 3;
     grid-row: 3 / 4;
 }
 .control-box .line-center {
     background: url(../images/icons/center-text-alignment.png) center no-repeat palegreen;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 3 / 4;
     grid-row: 3 / 4;
 }
 .control-box .line-right {
     background: url(../images/icons/align-to-right.png) center no-repeat palegreen;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 4 / 5;
     grid-row: 3 / 4;
 }
@@ -256,7 +256,7 @@ select {
 
 .control-box .change-color {
     background: url(../images/icons/paint-board-and-brush.png) center no-repeat;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 4 / 5;
     grid-row: 4 / 5;
     
@@ -269,7 +269,7 @@ select {
 }
 .control-box .change-font-color {
     background: url(../images/icons/text\ stroke.png) center no-repeat;
-    background-size: 80%;
+    background-size: contain;
     grid-column: 5 / 6;
     grid-row: 4 / 5;
     
