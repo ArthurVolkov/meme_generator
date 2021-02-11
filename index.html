@@ -10,7 +10,6 @@
 
 <body onload="init()">
 
-
     <header class="header">
         <div class="main-container flex justify-between align-center">
             <div class="logo-container"><img src="images/LOGO.png" alt="logo"></div>
@@ -37,16 +36,10 @@
 
     <main class="main-container images-container"></main>
 
-
     <main class="meme-editor main-container flex justify-between hidden">
         <section class="canvas-container">
             <canvas id="my-canvas" width="500" height="500"></canvas>
         </section>
-
-
-
-
-
 
         <section class="control-box">
             <input class="input-text" type="text" placeholder="text line" oninput="updateText(this)">
@@ -54,7 +47,6 @@
             <button onclick="onNewLine()" class="new-line"></button>
             <button onclick="onRefresh()" class="refresh">♻</button>
             <button onclick="onRemoveLine()" class="remove"></button>
-
             <button onclick="onChangeSize(2)" class="size-up"></button>
             <button onclick="onAlignLine('left')" class="line-left"></button>
             <button onclick="onAlignLine('center')" class="line-center"></button>
@@ -85,75 +77,16 @@
                 <button onclick="onIconsPaging(1)">➡</button>
             </section>
 
-
             <section class="share">
                 <button onclick="onOpenShare()" class="open-share">Share</button>
                 <ul class="share-drop clean-list">
                     <li><a class="flex justify-center align-center" href="#">Save</a></li>
-                    <li><a class="flex justify-center align-center" href="#">Download</a></li>
-                    <li><a class="flex justify-center align-center" href="#">Share on Facebook</a></li>
+                    <li><a class="flex justify-center align-center" href="#" onclick="onDownload(this)" download="my-img.jpg">Download</a></li>
+                    <li><a class="flex justify-center align-center" href="#" onclick="">Share on Facebook</a></li>
                 </ul>
             </section>
         </section>
-        <!-- <section class="control-box-container flex justify-center">
-            <div class="control-box flex flex-col">
-                <input class="input-text" type="text" placeholder="text line" oninput="updateText(this)">
-
-                <div class="line-btns flex justify-center">
-                    <button onclick="onNewLine()" class="new-line"></button>
-                    <button onclick="onRemoveLine()" class="remove"></button>
-                    <button onclick="onChangeSize(2)" class="size-up"></button>
-                    <button onclick="onChangeSize(-2)" class="size-down"></button>
-                    <button onclick="onRefresh()" class="refresh">♻</button>
-                </div>
-
-                <div class="align-btns flex justify-center">
-                    <button onclick="onAlignLine('left')" class="line-left"></button>
-                    <button onclick="onAlignLine('center')" class="line-center"></button>
-                    <button onclick="onAlignLine('right')" class="line-right"></button>
-                </div>
-
-                <div class="font-btns flex">
-                    <select name="font" id="font" onchange="onChangeFont(this)">
-                        <option value="Impact">Impact</option>
-                        <option value="Arial">Arial</option>
-                        <option value="Arial Black">Arial Bold</option>
-                        <option value="Times">Times</option>
-                        <option value="Verdana">Verdana</option>
-                        <option value="Comic Sans MS">Comic Sans MS</option>
-                        <option value="Brush script mt">Brush script mt</option>
-                        <option value="Algerian">Algerian</option>
-                    </select>
-                    <div class="change-color">
-                        <input type="color" onchange="onChangeColor(this)">
-                    </div>
-                    <div class="change-font-color">
-                        <input type="color" onchange="onChangeFontColor(this)">
-                    </div>
-                </div>
-
-                <section class="icons-container">
-                    <button onclick="onIconsPaging(-1)">⬅</button>
-                    <div class="icons-to-render"></div>
-                    <button onclick="onIconsPaging(1)">➡</button>
-                </section>
-
-
-                <section class="share">
-                    <button onclick="onOpenShare()" class="open-share">Share</button>
-                    <ul class="share-drop clean-list">
-                        <li>Save</li>
-                        <li>Download</li>
-                        <li>Share on Facebook</li>
-                    </ul>
-                    </li>
-                </section>
-            </div>
-        </section> -->
-
     </main>
-
-
 
     <footer class="footer flex flex-col align-center">
         <div class="logo-container"><img src="images/LOGO.png" alt="logo"></div>

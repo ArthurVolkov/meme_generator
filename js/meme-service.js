@@ -1,6 +1,5 @@
 'use strict'
 
-
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 var gIconsUnicode = [
     'f556', 'f567', 'f06e', 'f579', 'f119', 'f57a', 'f57f', 'f580', 'f581', 'f582', 'f583', 'f584', 'f585', 'f586', 'f587', 'f588', 'f589', 'f58a', 'f58b', 'f58c'
@@ -13,7 +12,6 @@ var gIconsPerPage = 5;
 var gKeywords = { 'happy': 12, 'funny puk': 1 };
 var gElCanvas = document.getElementById('my-canvas');
 var gCtx;
-
 var gImgs = [
     { id: 2, url: 'images/2.jpg', keywords: ['happy'] },
     { id: 1, url: 'images/1.jpg', keywords: ['happy'] },
@@ -34,10 +32,8 @@ var gImgs = [
     { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
     { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
-
 var gMeme;
 
-// var gMeme.lines[gMeme.selectedLineIdx] = gMeme.lines[0]
 
 function refresh() {
     gMeme = {
@@ -74,7 +70,6 @@ function refresh() {
     }
 }
 
-
 function updateMeme(idx) {
     gMeme.selectedImgId = idx;
 }
@@ -89,7 +84,6 @@ function renderCanvas() {
     drawImg(gMeme.selectedImgId, renderText)
 }
 
-
 function drawImg(idx, callback = console.log) {
     gMeme.selectedImgId = idx
     const img = new Image()
@@ -100,25 +94,16 @@ function drawImg(idx, callback = console.log) {
     }
 }
 
-
-
 function renderText() {
     let currLineIdx = gMeme.selectedLineIdx;
     gMeme.lines.forEach((line, idx) => {
         gMeme.selectedLineIdx = idx;
-
-        // let aspectX = gElCanvas.width / line.pos.x
-        // line.pos.x = gElCanvas.width * aspectX
-        // line.pos.x = gElCanvas.width / 2,
-        // console.log('line.pos.x:', line.pos.x)
-
         if (idx === currLineIdx) {
             drawText('selected')
         } else drawText()
     })
     gMeme.selectedLineIdx = currLineIdx
 }
-
 
 function drawText(selected = 0) {
     let text = gMeme.lines[gMeme.selectedLineIdx].txt;
@@ -128,7 +113,7 @@ function drawText(selected = 0) {
     let font = gMeme.lines[gMeme.selectedLineIdx].font
     let color = gMeme.lines[gMeme.selectedLineIdx].color
     let stroke = gMeme.lines[gMeme.selectedLineIdx].stroke
-    // gCtx.beginPath()
+
     gCtx.lineWidth = 2
     gCtx.strokeStyle = stroke
     gCtx.fillStyle = color
@@ -136,12 +121,10 @@ function drawText(selected = 0) {
     gCtx.textAlign = 'center'
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
-
-
     gCtx.strokeStyle = selected ? 'green' : 'black'
     var lineHeight = fontSize * 1.25
     var textWidth = gCtx.measureText(text).width;
-    gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + lineHeight/5, textWidth + 20, lineHeight);
+    gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + lineHeight / 5, textWidth + 20, lineHeight);
 }
 
 
@@ -157,17 +140,13 @@ function addListeners() {
 
 function addMouseListeners() {
     gElCanvas.addEventListener('mousemove', onMove)
-
     gElCanvas.addEventListener('mousedown', onDown)
-
     gElCanvas.addEventListener('mouseup', onUp)
 }
 
 function addTouchListeners() {
     gElCanvas.addEventListener('touchmove', onMove)
-
     gElCanvas.addEventListener('touchstart', onDown)
-
     gElCanvas.addEventListener('touchend', onUp)
 }
 
@@ -175,10 +154,8 @@ function addTouchListeners() {
 
 function onDown(ev) {
     const pos = getEvPos(ev)
-
     if (!isLineClicked(pos)) return
     gMeme.lines[gMeme.selectedLineIdx].isDragging = true
-    // gStartPos = pos
     document.body.style.cursor = 'grabbing'
     renderCanvas()
 }
@@ -186,21 +163,9 @@ function onDown(ev) {
 function onMove(ev) {
     if (gMeme.lines.length !== 0 && gMeme.lines[gMeme.selectedLineIdx].isDragging) {
         const pos = getEvPos(ev)
-        // const dx = pos.x - gStartPos.x
-        // const dy = pos.y - gStartPos.y
-
-        // gCircle.pos.x += dx
-        // gCircle.pos.y += dy
-        // gStartPos = pos
-        // renderCanvas()
-        // renderCircle()
-
         gMeme.lines[gMeme.selectedLineIdx].pos.x = pos.x;
         gMeme.lines[gMeme.selectedLineIdx].pos.y = pos.y;
-
         renderCanvas()
-        // drawText()
-
     }
 }
 
@@ -209,7 +174,6 @@ function onUp() {
     gMeme.lines[gMeme.selectedLineIdx].isDragging = false
     document.body.style.cursor = 'default'
 }
-
 
 function newLine() {
     let line = {
@@ -227,12 +191,8 @@ function newLine() {
     }
     gMeme.lines.push(line)
     gMeme.selectedLineIdx = gMeme.lines.length - 1
-    // gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width / 2
-    // gMeme.lines[gMeme.selectedLineIdx].pos.y = gElCanvas.height / 2
     renderText()
 }
-
-
 
 function getEvPos(ev) {
     var pos = {
@@ -265,9 +225,6 @@ function isLineClicked(clickedPos) {
     }
 }
 
-
-
-
 function removeLine() {
     if (gMeme.lines.length === 0) return
     gMeme.lines.splice([gMeme.selectedLineIdx], 1)
@@ -279,14 +236,14 @@ function alignLine(pos) {
     if (gMeme.lines.length === 0) return
     switch (pos) {
         case 'left':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = 
+            gMeme.lines[gMeme.selectedLineIdx].pos.x =
                 gCtx.measureText(gMeme.lines[gMeme.selectedLineIdx].txt).width / 2 + 10
             break
         case 'center':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width/2
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width / 2
             break
         case 'right':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width - 
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width -
                 gCtx.measureText(gMeme.lines[gMeme.selectedLineIdx].txt).width / 2 - 10
             break
     }
@@ -301,15 +258,11 @@ function changeSize(diff) {
     renderCanvas()
 }
 
-
-
-
 function changeFont(font) {
     if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].font = font;
     renderCanvas()
 }
-
 
 function changeColor(color) {
     if (gMeme.lines.length === 0) return
@@ -323,36 +276,9 @@ function changeFontColor(color) {
     renderCanvas()
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function renderIcons() {
-    
-//     var strHTML = gIconsUnicode.map((icon, idx) => {
-
-//         return `<div onclick="onChoseIcon(${idx})">
-//         <i class=icon-foo>&#x${icon};</i>
-//         </div>`
-//     })
-//     document.querySelector('.icons-modal').innerHTML = strHTML.join('')
-// }
-
-
 function renderIcons() {
-
     var iconsToShow = gIconsUnicode.slice(gIconsPage, gIconsPage + gIconsPerPage)
     var strHTML = iconsToShow.map((icon, idx) => {
-
         return `<div onclick="onChoseIcon(${idx})">
         <i class="flex align-center">&#x${icon};</i>
         </div>`
@@ -362,9 +288,8 @@ function renderIcons() {
 
 
 function iconsPaging(diff) {
-    
     console.log('gIconsPage:', gIconsPage)
-    if (gIconsPage + diff < 0 ) gIconsPage = gIcons.length - gIconsPerPage;
+    if (gIconsPage + diff < 0) gIconsPage = gIcons.length - gIconsPerPage;
     else if (gIconsPage + diff > gIcons.length - gIconsPerPage) gIconsPage = 0;
     else gIconsPage += diff;
     renderIcons()
@@ -373,11 +298,8 @@ function iconsPaging(diff) {
 
 function choseIcon(idx) {
     newLine()
-
-    
     gMeme.lines[gMeme.selectedLineIdx].font = 'awesome'
-    // document.querySelector('canvas').classList.toggle('awesome')
-    gMeme.lines[gMeme.selectedLineIdx].txt = `${gIcons[idx]}`
+    gMeme.lines[gMeme.selectedLineIdx].txt = `${gIcons[idx + gIconsPage]}`
     gMeme.lines[gMeme.selectedLineIdx].size = 60
     gMeme.lines[gMeme.selectedLineIdx].color = 'yellow'
     gMeme.lines[gMeme.selectedLineIdx].stroke = 'yellow'
@@ -386,3 +308,7 @@ function choseIcon(idx) {
 
 
 
+function download(elLink) {
+    var imgContent = gElCanvas.toDataURL('image/jpeg')
+    elLink.href = imgContent
+}

@@ -5,11 +5,6 @@
     src: url(../fonts/fa-solid-900.ttf);
 }
 
-
-
-
-
-
 /* LAYOUT */
 
 .main-container {
@@ -17,11 +12,6 @@
     margin: 0 auto;
     padding: 0 10px;
 }
-
-
-
-
-
 
 /* MAIN */
 
@@ -61,7 +51,6 @@ select {
     background-color: orange;
 }
 
-
 .logo-container img{
     height: 40px;   
 }
@@ -78,8 +67,6 @@ select {
     top: 50px;
     width: 100%;    
     background-color: peachpuff;
-    /* padding: 0 20px; */
-    /* height: 50px; */
 }
 
 .tags-container .tag {
@@ -96,7 +83,7 @@ select {
 
 .galery-img {
     height: 200px;
-    padding: 10px;  /*  */
+    padding: 10px;
 }
 
 /* Meme-editor */
@@ -107,19 +94,11 @@ select {
 }
 
 .canvas-container {
-    /* height: 80vh; */
     width: 50%;
     max-width: 70vh;
 }
 
-#my-canvas {
-    /* outline: 2px solid green; */
-}
-
 /* CONTROL BOX */
-
-
-
 
 .control-box {
     display: grid;
@@ -129,7 +108,6 @@ select {
     padding: 10px;
     width: 40%;
     max-height: 70vh;
-
     margin: 0 auto;
 } 
 
@@ -145,9 +123,6 @@ select {
 }
 
 .control-box button{
-    /* height: 2.5em;
-    width: 2.5em; */
-    /* margin: 0 10px; */
     font-size: 1.7em;
     background-color: palegreen;
     border-radius: 5px;
@@ -157,56 +132,23 @@ select {
 .control-box > *:hover:not(.icons-container){
     box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
 }
-    
-
-.control-box * {
-
-    /* margin-bottom: 10px; */
-}
-
-
-/* .control-box-container {
-    background-color: blanchedalmond;
-    flex-grow: 1;
-}
-
-.control-box {
-    background-color:lightskyblue;
-    width: 60%;
-}
-
-.control-box button{
-    height: 2.5em;
-    width: 2.5em;
-    margin: 0 10px;
-    background-color: palegreen;
-}
-
-.control-box * {
-    margin-bottom: 10px;
-} */
 
 /* LINE-BTNS */
 
-
-
 .control-box .input-text {
-    /* align-self: center; */
     grid-column: 1 / 6;
-
 }
 
 .control-box .new-line {
     background: url(../images/icons/add.png) center no-repeat palegreen;
-    background-size: contain;
+    background-size: 50%;
     grid-column: 2 / 3;
     grid-row: 2 / 3;
 }
 
-
 .control-box .remove {
     background: url(../images/icons/trash.png) center no-repeat crimson;
-    background-size: contain;
+    background-size: 50%;
     grid-column: 4 / 5;
     grid-row: 2 / 3;
 }
@@ -240,12 +182,14 @@ select {
     grid-column: 2 / 3;
     grid-row: 3 / 4;
 }
+
 .control-box .line-center {
     background: url(../images/icons/center-text-alignment.png) center no-repeat palegreen;
     background-size: contain;
     grid-column: 3 / 4;
     grid-row: 3 / 4;
 }
+
 .control-box .line-right {
     background: url(../images/icons/align-to-right.png) center no-repeat palegreen;
     background-size: contain;
@@ -255,9 +199,6 @@ select {
 
 /* FONT BTNS */
 
-.font-btns {
-
-}
 
 .font-select {
     grid-column: 1 / 4;
@@ -269,7 +210,6 @@ select {
     background-size: contain;
     grid-column: 4 / 5;
     grid-row: 4 / 5;
-    
 }
 
 .control-box .change-color input {
@@ -282,7 +222,6 @@ select {
     background-size: contain;
     grid-column: 5 / 6;
     grid-row: 4 / 5;
-    
 }
 
 .control-box .change-font-color input {
@@ -298,7 +237,6 @@ select {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     grid-column: 1 / 6;
     grid-row: 5 / 6;
 }
@@ -308,8 +246,7 @@ select {
 }
 
 .icons-container div {
-    /* margin: .3em; */
-    padding-right: .6em;
+    padding-left: .2em;
     cursor: pointer;
 }
 
@@ -319,15 +256,15 @@ select {
 }
 
 .icons-container i {
-    color:yellow;
+    color:gold;
     font-size: 3em;
+    font-style: normal;
 }
 
 .icons-container div:hover:not(.icons-to-render), .icons-container button:hover{
     border-radius: 10px;
     box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
 }
-
 
 
 /* SHARE_DROPDOWN */
@@ -346,7 +283,6 @@ select {
 
 .share-drop {
     height: auto;
-
     position: absolute;
     bottom: 4em;
     max-height: 0;
@@ -354,10 +290,10 @@ select {
     color: black;
     transform: scaleX(0);
     border-radius: 10px;
-    transition: max-height .6s, bottom 1s, max-width .6s ,opacity .6s .3s, transform .6s;
+    transition: max-height .6s, bottom 1s, max-width .6s ,opacity 1s .3s, transform .6s;
     background-color: orange;
-
 }
+
 .share-drop a {
     text-align: center;
     font-size: 1.5em;
@@ -373,13 +309,16 @@ select {
 
 .share.open .share-drop {
     max-height: 100vh;
-    /* bottom: 5em; */
     display: block;
     opacity: 1;
     transform: scaleX(1);
 
 }
 
+.share-drop li:hover{
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+}
 
 
 /* FOOTER */
