@@ -27,18 +27,24 @@ function onMemeEditor(idx) {
     document.querySelector('.images-container').classList.toggle('hidden')
     document.querySelector('.meme-editor').classList.toggle('hidden')
     document.querySelector('.search-bar').classList.toggle('hidden')
+    refresh()
     updateMeme(idx)
     renderCanvas()
     resizeCanvas()
     renderIcons()
 }
 
+function onRefresh() {
+    refresh()
+    renderCanvas()
+}
 
 
 
 function onGalery() {
     document.querySelector('.images-container').classList.remove('hidden')
     document.querySelector('.meme-editor').classList.add('hidden')
+    document.querySelector('.search-bar').classList.toggle('hidden')
 }
 
 

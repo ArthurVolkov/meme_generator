@@ -35,40 +35,45 @@ var gImgs = [
     { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
 
-var gMeme = {
-    selectedImgId: 5,
-    selectedLineIdx: 0,
-    lines: [
-        {
-            txt: 'Line 1',
-            size: 30,
-            pos: {
-                x: gElCanvas.width / 2,
-                y: 50
-            },
-            align: 'center',
-            color: 'white',
-            stroke: 'black',
-            font: 'Impact',
-            isDragging: false
-        },
-        {
-            pos: {
-                x: gElCanvas.width / 2,
-                y: gElCanvas.height - 20
-            },
-            txt: 'line 2',
-            size: 30,
-            align: 'center',
-            color: 'white',
-            stroke: 'black',
-            font: 'Impact',
-            isDragging: false
-        }
-    ],
-}
+var gMeme;
 
 // var gMeme.lines[gMeme.selectedLineIdx] = gMeme.lines[0]
+
+function refresh() {
+    gMeme = {
+        selectedImgId: 5,
+        selectedLineIdx: 0,
+        lines: [
+            {
+                txt: 'Line 1',
+                size: 30,
+                pos: {
+                    x: gElCanvas.width / 2,
+                    y: 50
+                },
+                align: 'center',
+                color: 'white',
+                stroke: 'black',
+                font: 'Impact',
+                isDragging: false
+            },
+            {
+                pos: {
+                    x: gElCanvas.width / 2,
+                    y: gElCanvas.height - 20
+                },
+                txt: 'line 2',
+                size: 30,
+                align: 'center',
+                color: 'white',
+                stroke: 'black',
+                font: 'Impact',
+                isDragging: false
+            }
+        ],
+    }
+}
+
 
 function updateMeme(idx) {
     gMeme.selectedImgId = idx;
@@ -144,6 +149,7 @@ function addListeners() {
     addMouseListeners()
     addTouchListeners()
     window.addEventListener('resize', () => {
+        if (!gMeme) return;
         resizeCanvas()
         renderCanvas()
     })
@@ -345,7 +351,7 @@ function renderIcons() {
     var strHTML = iconsToShow.map((icon, idx) => {
 
         return `<div onclick="onChoseIcon(${idx})">
-        <i class=icon-foo>&#x${icon};</i>
+        <i class="flex align-center">&#x${icon};</i>
         </div>`
     })
     document.querySelector('.icons-to-render').innerHTML = strHTML.join('')
