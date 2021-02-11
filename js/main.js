@@ -7,7 +7,6 @@ function init() {
     renderImages(18)
     gCtx = gElCanvas.getContext('2d');
     addListeners()
-
 }
 
 
@@ -30,6 +29,7 @@ function onMemeEditor(idx) {
     document.querySelector('.search-bar').classList.toggle('hidden')
     updateMeme(idx)
     renderCanvas()
+    resizeCanvas()
     renderIcons()
 }
 
@@ -48,6 +48,10 @@ function onNewLine() {
 
 function onRemoveLine() {
     removeLine()
+}
+
+function onAlignLine(pos) {
+    alignLine(pos)
 }
 
 function onChangeSize(diff) {
@@ -82,4 +86,26 @@ function onCloseModal() {
 
 function onIconsPaging(diff) {
     iconsPaging(diff)
+}
+
+
+function onOpenShare() {
+    document.querySelector('.share').classList.toggle('open')
+}
+
+
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container');
+    let aspectX = []
+    let aspectY = []
+    gMeme.lines.forEach((line) => {
+        aspectX.push(gElCanvas.width / line.pos.x)
+        aspectY.push(gElCanvas.height / line.pos.y)
+    })
+    gElCanvas.width = elContainer.offsetWidth //////////
+    gElCanvas.height = elContainer.offsetWidth
+    gMeme.lines.forEach((line, idx) => {
+        line.pos.x = gElCanvas.width / aspectX[idx]
+        line.pos.y = gElCanvas.height / aspectY[idx]
+    })
 }

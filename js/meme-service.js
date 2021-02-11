@@ -41,7 +41,7 @@ var gMeme = {
     lines: [
         {
             txt: 'Line 1',
-            size: 40,
+            size: 30,
             pos: {
                 x: gElCanvas.width / 2,
                 y: 50
@@ -58,7 +58,7 @@ var gMeme = {
                 y: gElCanvas.height - 20
             },
             txt: 'line 2',
-            size: 40,
+            size: 30,
             align: 'center',
             color: 'white',
             stroke: 'black',
@@ -101,6 +101,12 @@ function renderText() {
     let currLineIdx = gMeme.selectedLineIdx;
     gMeme.lines.forEach((line, idx) => {
         gMeme.selectedLineIdx = idx;
+
+        // let aspectX = gElCanvas.width / line.pos.x
+        // line.pos.x = gElCanvas.width * aspectX
+        // line.pos.x = gElCanvas.width / 2,
+        // console.log('line.pos.x:', line.pos.x)
+
         if (idx === currLineIdx) {
             drawText('selected')
         } else drawText()
@@ -137,10 +143,10 @@ function drawText(selected = 0) {
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    // window.addEventListener('resize', () => {
-    //     resizeCanvas()
-    //     renderCanvas()
-    // })
+    window.addEventListener('resize', () => {
+        resizeCanvas()
+        renderCanvas()
+    })
 }
 
 function addMouseListeners() {
@@ -206,7 +212,7 @@ function newLine() {
             y: gElCanvas.height / 2
         },
         txt: 'New Line',
-        size: 40,
+        size: 30,
         align: 'center',
         color: 'white',
         stroke: 'black',
@@ -251,7 +257,6 @@ function isLineClicked(clickedPos) {
     })
     if (currLineIdx !== -1) {
         gMeme.selectedLineIdx = currLineIdx
-        // console.log('gMeme.lines[gMeme.selectedLineIdx] isLineClicked:', gMeme.lines[gMeme.selectedLineIdx])
         return true
     }
 }
@@ -266,7 +271,22 @@ function removeLine() {
     renderCanvas()
 }
 
-
+function alignLine(pos) {
+    switch (pos) {
+        case 'left':
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = 
+                gCtx.measureText(gMeme.lines[gMeme.selectedLineIdx].txt).width / 2 + 10
+            break
+        case 'center':
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width/2
+            break
+        case 'right':
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width - 
+                gCtx.measureText(gMeme.lines[gMeme.selectedLineIdx].txt).width / 2 - 10
+            break
+    }
+    renderCanvas()
+}
 
 function changeSize(diff) {
     if (gMeme.lines[gMeme.selectedLineIdx].size + diff <= 20 ||
@@ -355,3 +375,6 @@ function choseIcon(idx) {
     renderCanvas()
     onCloseModal()
 }
+
+
+

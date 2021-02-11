@@ -12,6 +12,11 @@
 
 /* LAYOUT */
 
+.main-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
 
 
 
@@ -24,7 +29,12 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+}
+
 a {
+    display: block;
     text-decoration: none;
 }
 
@@ -32,19 +42,19 @@ a {
 
 /* COMPONENTS */
 
-
 /* Header */
 
 .header {
     background-color: orange;
-    padding: 0 20px;
 }
 
-.header ul {
-    height: 50px;
+
+.logo-container img{
+    height: 40px;   
 }
 
 .header a{
+    height: 50px;
     padding: 0 20px;
 }
 
@@ -52,38 +62,54 @@ a {
 
 .search-bar {
     background-color: peachpuff;
-    padding: 0 20px;
-    height: 50px;
+    /* padding: 0 20px; */
+    /* height: 50px; */
 }
 
-.tags-container * {
-    padding: 0 10px;
+.tags-container .tag {
+    height: 50px;
+    padding: 0 20px;
 }
 
 
 /* Galery */
 
-.images-container {
-    /* display: none; */
-}
 
 .galery-img {
     height: 200px;
-    margin: 10px;
+    padding: 10px;  /*  */
 }
-
 
 /* Meme-editor */
 
-#my-canvas {
-    outline: 2px solid green;
+.meme-editor {
+    margin-top: 20px;
+    background-color: lightsalmon;
 }
 
+.canvas-container {
+    /* height: 80vh; */
+    width: 50%;
+}
+
+#my-canvas {
+    /* outline: 2px solid green; */
+}
+
+/* CONTROL BOX */
+
+.control-box {
+    background-color: blanchedalmond;
+    flex-grow: 1;
+    /* height: 100%; */
+}
 
 .control-box button{
     height: 2.5em;
     width: 2.5em;
 }
+
+/* LINE-BTNS */
 
 .control-box .new-line {
     background: url(../images/icons/add.png) center no-repeat;
@@ -104,6 +130,28 @@ a {
 .control-box .size-down {
     background: url(../images/icons/decrease\ font\ -\ icon.png) center no-repeat;
     background-size: 80%;
+}
+
+
+/* ALIGN BTNS */
+
+.control-box .line-left {
+    background: url(../images/icons/align-to-left.png) center no-repeat;
+    background-size: 80%;
+}
+.control-box .line-center {
+    background: url(../images/icons/center-text-alignment.png) center no-repeat;
+    background-size: 80%;
+}
+.control-box .line-right {
+    background: url(../images/icons/align-to-right.png) center no-repeat;
+    background-size: 80%;
+}
+
+/* FONT BTNS */
+
+.font-btns {
+
 }
 
 .control-box .change-color {
@@ -134,35 +182,7 @@ a {
 }
 
 
-/* ICONS_MODAL */
-
-/* 
-.icons-modal{
-    display: flex;
-    flex-wrap: wrap;
-    position: fixed;
-    top: 0;
-    width: 250px;
-    background-color: lightblue;
-    font-family: awesome;
-}
-
-.icons-modal div {
-    margin: .3em;
-    padding: .3em;
-    cursor: pointer;
-}
-
-.icons-modal i {
-    color: gold;
-    font-size: 1.8em;
-} */
-
-
-
-
-/*  */
-
+/* ICONS_CONTAINER */
 
 .icons-container {
     display: flex;
@@ -188,6 +208,26 @@ a {
 }
 
 
+/* SHARE_DROPDOWN */
+
+.share {
+    position: relative;
+}
+
+.share-drop {
+    position: absolute;
+    top: -500px;
+    background-color: #292929;
+    color: white;
+    font-family: lato, sans-serif;
+    transition: top 1s;
+}
+
+.share.open .share-drop {
+    top: 131px
+}
+
+
 /* HELPERS */
 
 .clean-list {
@@ -200,12 +240,26 @@ a {
     display: flex;
 }
 
+.flex-col {
+    flex-direction: column;
+}
+
 .justify-between {
     justify-content: space-between;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
 .align-center {
     align-items: center;
+}
+
+.clean-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 .hidden {
