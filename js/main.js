@@ -86,9 +86,9 @@ function onChoseIcon(idx) {
     choseIcon(idx)
 }
 
-function onCloseModal() {
-    document.querySelector('.icons-modal').classList.add('hidden')
-}
+// function onCloseModal() {
+//     document.querySelector('.icons-modal').classList.add('hidden')
+// }
 
 function onIconsPaging(diff) {
     iconsPaging(diff)

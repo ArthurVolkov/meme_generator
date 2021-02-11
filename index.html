@@ -51,32 +51,32 @@
         <section class="control-box">
             <input class="input-text" type="text" placeholder="text line" oninput="updateText(this)">
 
-                <button onclick="onNewLine()" class="new-line"></button>
-                <button onclick="onRefresh()" class="refresh">♻</button>
-                <button onclick="onRemoveLine()" class="remove"></button>
-                
-                <button onclick="onChangeSize(2)" class="size-up"></button>
-                <button onclick="onAlignLine('left')" class="line-left"></button>
-                <button onclick="onAlignLine('center')" class="line-center"></button>
-                <button onclick="onAlignLine('right')" class="line-right"></button>
-                <button onclick="onChangeSize(-2)" class="size-down"></button>
+            <button onclick="onNewLine()" class="new-line"></button>
+            <button onclick="onRefresh()" class="refresh">♻</button>
+            <button onclick="onRemoveLine()" class="remove"></button>
 
-                <select class="font-select" name="font" id="font" onchange="onChangeFont(this)">
-                    <option value="Impact">Impact</option>
-                    <option value="Arial">Arial</option>
-                    <option value="Arial Black">Arial Bold</option>
-                    <option value="Times">Times</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Comic Sans MS">Comic Sans MS</option>
-                    <option value="Brush script mt">Brush script mt</option>
-                    <option value="Algerian">Algerian</option>
-                </select>
-                <div class="change-color">
-                    <input type="color" onchange="onChangeColor(this)">
-                </div>
-                <div class="change-font-color">
-                    <input type="color" onchange="onChangeFontColor(this)">
-                </div>
+            <button onclick="onChangeSize(2)" class="size-up"></button>
+            <button onclick="onAlignLine('left')" class="line-left"></button>
+            <button onclick="onAlignLine('center')" class="line-center"></button>
+            <button onclick="onAlignLine('right')" class="line-right"></button>
+            <button onclick="onChangeSize(-2)" class="size-down"></button>
+
+            <select class="font-select" name="font" id="font" onchange="onChangeFont(this)">
+                <option value="Impact">Impact</option>
+                <option value="Arial">Arial</option>
+                <option value="Arial Black">Arial Bold</option>
+                <option value="Times">Times</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Comic Sans MS">Comic Sans MS</option>
+                <option value="Brush script mt">Brush script mt</option>
+                <option value="Algerian">Algerian</option>
+            </select>
+            <div class="change-color">
+                <input type="color" onchange="onChangeColor(this)">
+            </div>
+            <div class="change-font-color">
+                <input type="color" onchange="onChangeFontColor(this)">
+            </div>
             </div>
 
             <section class="icons-container">
@@ -89,11 +89,10 @@
             <section class="share">
                 <button onclick="onOpenShare()" class="open-share">Share</button>
                 <ul class="share-drop clean-list">
-                    <li>Save</li>
-                    <li>Download</li>
-                    <li>Share on Facebook</li>
+                    <li><a class="flex justify-center align-center" href="#">Save</a></li>
+                    <li><a class="flex justify-center align-center" href="#">Download</a></li>
+                    <li><a class="flex justify-center align-center" href="#">Share on Facebook</a></li>
                 </ul>
-                </li>
             </section>
         </section>
         <!-- <section class="control-box-container flex justify-center">

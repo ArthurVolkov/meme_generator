@@ -251,8 +251,6 @@ function getEvPos(ev) {
 }
 
 function isLineClicked(clickedPos) {
-
-
     let currLineIdx = gMeme.lines.findIndex((line) => {
         let lineHeight = line.size * 1.3
         let textWidth = gCtx.measureText(line.txt).width;
@@ -278,6 +276,7 @@ function removeLine() {
 }
 
 function alignLine(pos) {
+    if (gMeme.lines.length === 0) return
     switch (pos) {
         case 'left':
             gMeme.lines[gMeme.selectedLineIdx].pos.x = 
@@ -295,6 +294,7 @@ function alignLine(pos) {
 }
 
 function changeSize(diff) {
+    if (gMeme.lines.length === 0) return
     if (gMeme.lines[gMeme.selectedLineIdx].size + diff <= 20 ||
         gMeme.lines[gMeme.selectedLineIdx].size + diff >= 120) return
     gMeme.lines[gMeme.selectedLineIdx].size += diff
@@ -305,17 +305,20 @@ function changeSize(diff) {
 
 
 function changeFont(font) {
+    if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].font = font;
     renderCanvas()
 }
 
 
 function changeColor(color) {
+    if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].color = color;
     renderCanvas()
 }
 
 function changeFontColor(color) {
+    if (gMeme.lines.length === 0) return
     gMeme.lines[gMeme.selectedLineIdx].stroke = color;
     renderCanvas()
 }
@@ -379,7 +382,6 @@ function choseIcon(idx) {
     gMeme.lines[gMeme.selectedLineIdx].color = 'yellow'
     gMeme.lines[gMeme.selectedLineIdx].stroke = 'yellow'
     renderCanvas()
-    onCloseModal()
 }
 
 

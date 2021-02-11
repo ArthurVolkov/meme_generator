@@ -148,13 +148,23 @@ select {
     /* height: 2.5em;
     width: 2.5em; */
     /* margin: 0 10px; */
-    font-size: 2em;
+    font-size: 1.7em;
     background-color: palegreen;
+    border-radius: 5px;
+    height: 1.5em;
 }
 
+.control-box > *:hover:not(.icons-container){
+    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+}
+    
+
 .control-box * {
+
     /* margin-bottom: 10px; */
 }
+
+
 /* .control-box-container {
     background-color: blanchedalmond;
     flex-grow: 1;
@@ -313,6 +323,12 @@ select {
     font-size: 3em;
 }
 
+.icons-container div:hover:not(.icons-to-render), .icons-container button:hover{
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+}
+
+
 
 /* SHARE_DROPDOWN */
 
@@ -329,16 +345,39 @@ select {
 }
 
 .share-drop {
+    height: auto;
+
     position: absolute;
-    top: -1000px;
-    background-color: #292929;
+    bottom: 4em;
+    max-height: 0;
+    opacity: 0;
+    color: black;
+    transform: scaleX(0);
+    border-radius: 10px;
+    transition: max-height .6s, bottom 1s, max-width .6s ,opacity .6s .3s, transform .6s;
+    background-color: orange;
+
+}
+.share-drop a {
+    text-align: center;
+    font-size: 1.5em;
+    height: 3em;
     color: white;
-    font-family: lato, sans-serif;
-    transition: top 1s;
+
 }
 
+.share-drop > *:not(:last-child) {
+    border-bottom: 1px solid white;
+}
+
+
 .share.open .share-drop {
-    top: 131px
+    max-height: 100vh;
+    /* bottom: 5em; */
+    display: block;
+    opacity: 1;
+    transform: scaleX(1);
+
 }
 
 
