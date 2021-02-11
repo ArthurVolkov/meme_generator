@@ -33,10 +33,12 @@ var gImgs = [
     { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
 ];
 var gMeme;
+var gStoredImages = [];
 
 
 function refresh() {
     gMeme = {
+        isSave: false,
         selectedImgId: 5,
         selectedLineIdx: 0,
         lines: [
@@ -84,7 +86,7 @@ function renderCanvas() {
     drawImg(gMeme.selectedImgId, renderText)
 }
 
-function drawImg(idx, callback = console.log) {
+function drawImg(idx, callback) {
     gMeme.selectedImgId = idx
     const img = new Image()
     img.src = `images/${gMeme.selectedImgId}.jpg`;
@@ -121,6 +123,7 @@ function drawText(selected = 0) {
     gCtx.textAlign = 'center'
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
+    if (gMeme.isSave) return
     gCtx.strokeStyle = selected ? 'green' : 'black'
     var lineHeight = fontSize * 1.25
     var textWidth = gCtx.measureText(text).width;
@@ -133,8 +136,10 @@ function addListeners() {
     addTouchListeners()
     window.addEventListener('resize', () => {
         if (!gMeme) return;
-        resizeCanvas()
-        renderCanvas()
+        setTimeout(() => {
+            resizeCanvas()
+            renderCanvas()
+        }, 250)
     })
 }
 
@@ -286,7 +291,6 @@ function renderIcons() {
     document.querySelector('.icons-to-render').innerHTML = strHTML.join('')
 }
 
-
 function iconsPaging(diff) {
     console.log('gIconsPage:', gIconsPage)
     if (gIconsPage + diff < 0) gIconsPage = gIcons.length - gIconsPerPage;
@@ -294,7 +298,6 @@ function iconsPaging(diff) {
     else gIconsPage += diff;
     renderIcons()
 }
-
 
 function choseIcon(idx) {
     newLine()
@@ -306,9 +309,35 @@ function choseIcon(idx) {
     renderCanvas()
 }
 
-
+function removeBorder() {
+    gMeme.isSave = true
+    renderCanvas()
+    setTimeout(() => {
+        gMeme.isSave = false
+    }, 800)
+}
 
 function download(elLink) {
     var imgContent = gElCanvas.toDataURL('image/jpeg')
     elLink.href = imgContent
+}
+
+
+function saveImage() {
+    gMeme.isSave = true
+    renderCanvas()
+    setTimeout(() => {
+        var imgContent = gElCanvas.toDataURL('image/jpeg')
+        gStoredImages.push(imgContent)
+        saveToStorage('images', gStoredImages)
+        gMeme.isSave = false
+    }, 500)
+}
+
+
+function loadImages() {
+    var storedImages = loadFromStorage('images')
+    if (!storedImages || !storedImages.length) return
+    gStoredImages = storedImages;
+    return storedImages;
 }

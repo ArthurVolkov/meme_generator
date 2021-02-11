@@ -320,6 +320,16 @@ select {
     box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
 }
 
+/* SAVED-IMAGES */
+
+.saved-images {
+    margin-top: 50px;
+}
+
+.saved-images img{
+    height: 200px;
+    padding: 10px;
+}
 
 /* FOOTER */
 

@@ -18,6 +18,7 @@ function onMemeEditor(idx) {
     document.querySelector('.images-container').classList.toggle('hidden')
     document.querySelector('.meme-editor').classList.toggle('hidden')
     document.querySelector('.search-bar').classList.toggle('hidden')
+    document.querySelector('.saved-images').classList.add('hidden')
     refresh()
     updateMeme(idx)
     renderCanvas()
@@ -31,9 +32,11 @@ function onRefresh() {
 }
 
 function onGalery() {
+    if (!document.querySelector('.images-container').classList.contains('hidden')) return
     document.querySelector('.images-container').classList.remove('hidden')
     document.querySelector('.meme-editor').classList.add('hidden')
     document.querySelector('.search-bar').classList.toggle('hidden')
+    document.querySelector('.saved-images').classList.add('hidden')
 }
 
 function onNewLine() {
@@ -74,6 +77,7 @@ function onIconsPaging(diff) {
 
 function onOpenShare() {
     document.querySelector('.share').classList.toggle('open')
+    removeBorder()
 }
 
 function resizeCanvas() {
@@ -94,4 +98,27 @@ function resizeCanvas() {
 
 function onDownload(elLink) {
     download(elLink)
+    document.querySelector('.share').classList.remove('open')
+}
+
+function onSave() {
+    saveImage()
+    document.querySelector('.share').classList.remove('open')
+}
+
+function renderStored() {
+    var images = loadImages()
+    if(!images) return
+    var strHTML = images.map((image) => {
+        return `<img src="${image}"/>`
+    })
+    document.querySelector('.saved-images').innerHTML = strHTML.join('')
+}
+
+function onSaved() {
+    renderStored()
+    document.querySelector('.images-container').classList.add('hidden')
+    document.querySelector('.meme-editor').classList.add('hidden')
+    document.querySelector('.search-bar').classList.add('hidden')
+    document.querySelector('.saved-images').classList.remove('hidden')
 }
