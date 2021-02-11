@@ -30,6 +30,7 @@ function onMemeEditor(idx) {
     document.querySelector('.search-bar').classList.toggle('hidden')
     updateMeme(idx)
     renderCanvas()
+    renderIcons()
 }
 
 
@@ -66,10 +67,10 @@ function onChangeFontColor(elInput) {
 }
 
 
-function onIconsModal() {
-    renderIcons()
-    document.querySelector('.icons-modal').classList.remove('hidden')
-}
+// function onIconsModal() {
+//     renderIcons()
+//     document.querySelector('.icons-modal').classList.remove('hidden')
+// }
 
 function onChoseIcon(idx) {
     choseIcon(idx)
@@ -77,4 +78,8 @@ function onChoseIcon(idx) {
 
 function onCloseModal() {
     document.querySelector('.icons-modal').classList.add('hidden')
+}
+
+function onIconsPaging(diff) {
+    iconsPaging(diff)
 }

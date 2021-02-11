@@ -57,7 +57,17 @@
             <div class="change-font-color">
                 <input type="color" onchange="onChangeFontColor(this)">
             </div>
-            <button onclick="onIconsModal()">icons</button>
+            <!-- <button onclick="onIconsModal()">icons</button> -->
+
+
+            <section class="icons-container">
+                <button onclick="onIconsPaging(-1)">⬅</button>
+                <div class="icons-to-render"></div>
+                <button onclick="onIconsPaging(1)">➡</button>
+            </section>
+
+            
+
         </section>
     </main>
 

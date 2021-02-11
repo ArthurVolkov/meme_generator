@@ -8,6 +8,8 @@ var gIconsUnicode = [
 var gIcons = [
     '\uf556', '\uf567', '\uf06e', '\uf579', '\uf119', '\uf57a', '\uf57f', '\uf580', '\uf581', '\uf582', '\uf583', '\uf584', '\uf585', '\uf586', '\uf587', '\uf588', '\uf589', '\uf58a', '\uf58b', '\uf58c'
 ]
+var gIconsPage = 0;
+var gIconsPerPage = 5;
 var gKeywords = { 'happy': 12, 'funny puk': 1 };
 var gElCanvas = document.getElementById('my-canvas');
 var gCtx;
@@ -69,7 +71,6 @@ var gMeme = {
 // var gMeme.lines[gMeme.selectedLineIdx] = gMeme.lines[0]
 
 function updateMeme(idx) {
-
     gMeme.selectedImgId = idx;
 }
 
@@ -116,7 +117,7 @@ function drawText(selected = 0) {
     let font = gMeme.lines[gMeme.selectedLineIdx].font
     let color = gMeme.lines[gMeme.selectedLineIdx].color
     let stroke = gMeme.lines[gMeme.selectedLineIdx].stroke
-    gCtx.beginPath()
+    // gCtx.beginPath()
     gCtx.lineWidth = 2
     gCtx.strokeStyle = stroke
     gCtx.fillStyle = color
@@ -129,7 +130,7 @@ function drawText(selected = 0) {
     gCtx.strokeStyle = selected ? 'green' : 'black'
     var lineHeight = fontSize * 1.25
     var textWidth = gCtx.measureText(text).width;
-    gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + 10, textWidth + 20, lineHeight);
+    gCtx.strokeRect(x - textWidth / 2 - 10, y - lineHeight + lineHeight/5, textWidth + 20, lineHeight);
 }
 
 
@@ -167,6 +168,7 @@ function onDown(ev) {
     gMeme.lines[gMeme.selectedLineIdx].isDragging = true
     // gStartPos = pos
     document.body.style.cursor = 'grabbing'
+    renderCanvas()
 }
 
 function onMove(ev) {
@@ -305,14 +307,38 @@ function changeFontColor(color) {
 
 
 
+// function renderIcons() {
+    
+//     var strHTML = gIconsUnicode.map((icon, idx) => {
+
+//         return `<div onclick="onChoseIcon(${idx})">
+//         <i class=icon-foo>&#x${icon};</i>
+//         </div>`
+//     })
+//     document.querySelector('.icons-modal').innerHTML = strHTML.join('')
+// }
+
+
 function renderIcons() {
-    var strHTML = gIconsUnicode.map((icon, idx) => {
+
+    var iconsToShow = gIconsUnicode.slice(gIconsPage, gIconsPage + gIconsPerPage)
+    var strHTML = iconsToShow.map((icon, idx) => {
 
         return `<div onclick="onChoseIcon(${idx})">
         <i class=icon-foo>&#x${icon};</i>
         </div>`
     })
-    document.querySelector('.icons-modal').innerHTML = strHTML.join('')
+    document.querySelector('.icons-to-render').innerHTML = strHTML.join('')
+}
+
+
+function iconsPaging(diff) {
+    
+    console.log('gIconsPage:', gIconsPage)
+    if (gIconsPage + diff < 0 ) gIconsPage = gIcons.length - gIconsPerPage;
+    else if (gIconsPage + diff > gIcons.length - gIconsPerPage) gIconsPage = 0;
+    else gIconsPage += diff;
+    renderIcons()
 }
 
 
@@ -321,10 +347,11 @@ function choseIcon(idx) {
 
     
     gMeme.lines[gMeme.selectedLineIdx].font = 'awesome'
-    document.querySelector('canvas').classList.toggle('awesome')
+    // document.querySelector('canvas').classList.toggle('awesome')
     gMeme.lines[gMeme.selectedLineIdx].txt = `${gIcons[idx]}`
-    gMeme.lines[gMeme.selectedLineIdx].size = 80
+    gMeme.lines[gMeme.selectedLineIdx].size = 60
+    gMeme.lines[gMeme.selectedLineIdx].color = 'yellow'
+    gMeme.lines[gMeme.selectedLineIdx].stroke = 'yellow'
     renderCanvas()
-    document.querySelector('canvas').classList.toggle('awesome')
     onCloseModal()
 }

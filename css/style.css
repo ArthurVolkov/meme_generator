@@ -136,7 +136,7 @@ a {
 
 /* ICONS_MODAL */
 
-
+/* 
 .icons-modal{
     display: flex;
     flex-wrap: wrap;
@@ -154,6 +154,35 @@ a {
 }
 
 .icons-modal i {
+    color: gold;
+    font-size: 1.8em;
+} */
+
+
+
+
+/*  */
+
+
+.icons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icons-container div {
+    margin: .3em;
+    padding: .3em;
+    cursor: pointer;
+}
+
+.icons-to-render {
+    display: flex;
+    font-family: awesome;
+
+}
+
+.icons-container i {
     color: gold;
     font-size: 1.8em;
 }
@@ -183,6 +212,3 @@ a {
     display: none;
 }
 
-.awesome {
-    font-family: awesome;
-}
