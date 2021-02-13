@@ -13,22 +13,8 @@ function renderImages() {
     var strHTML = imagesToShow.map((image) => {
         return `<img src="images/${image.id}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${image.id})">`
     })
-
-    // var strHTML = ``
-    // for (var i = 1; i <= count; i++) {
-    //     strHTML += `<img src="images/${i}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${i})">`
-    // }
     document.querySelector('.images-container').innerHTML = strHTML.join('')
-    /////////////
     var images = Array.from(document.querySelectorAll('.galery-img'))
-    // console.log('images:', images)
-    // var imagesXY = []
-    // images.forEach((image) => {
-    //     let imageX = image.naturalWidth;
-    //     let imageY = image.naturalHeight;
-    //     imagesXY.push([imageX, imageY])
-    // })
-    // console.log('imagesXY:', imagesXY)
     images.forEach((image) => {
         if (Math.abs((image.naturalWidth - image.naturalHeight) < image.naturalWidth / 10)) {
             image.classList.add('box')
@@ -143,8 +129,6 @@ function renderStored() {
     var images = Array.from(document.querySelectorAll('.saved-img'))
     setTimeout(() => {
         images.forEach((image) => {
-            console.log('image.naturalHeight:', image.naturalHeight)
-            console.log('image.naturalWidth:', image.naturalWidth)
             if (Math.abs((image.naturalWidth - image.naturalHeight) < image.naturalWidth / 10)) {
                 image.classList.add('box')
             } else if (image.naturalWidth < image.naturalHeight) {
@@ -194,7 +178,6 @@ function showMoreTags(elMore) {
 
 function onSearch() {
     var elInput = document.querySelector('.search-input')
-    // console.log('elInput.value:', elInput.value)
     setFilter(elInput.value)
     renderTags()
     renderImages()
@@ -207,7 +190,6 @@ function renderSearhList() {
     })
     document.getElementById('tags').innerHTML = strHTML.join('')
 }
-
 
 function toggleMenu() {
     document.body.classList.toggle('menu-open');

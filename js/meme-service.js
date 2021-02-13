@@ -209,8 +209,6 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
-
-
 function onDown(ev) {
     const pos = getEvPos(ev)
     if (!isLineClicked(pos)) return
@@ -346,7 +344,6 @@ function renderIcons() {
 }
 
 function iconsPaging(diff) {
-    console.log('gIconsPage:', gIconsPage)
     if (gIconsPage + diff < 0) gIconsPage = gIcons.length - gIconsPerPage;
     else if (gIconsPage + diff > gIcons.length - gIconsPerPage) gIconsPage = 0;
     else gIconsPage += diff;
@@ -411,7 +408,6 @@ function getImagesToShow() {
         })
         if (isShow) imagesToShow.push(image)
     })
-    console.log('imagesToShow:', imagesToShow)
     return imagesToShow
 }
 
