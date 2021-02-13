@@ -2,7 +2,7 @@
 
 function init() {
     renderImages()
-    setTimeout(() => renderImages(), 100)
+    setTimeout(() => renderImages(), 200)
     gCtx = gElCanvas.getContext('2d');
     addListeners()
     renderTags()
