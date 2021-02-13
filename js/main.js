@@ -182,6 +182,7 @@ function onFilter(elTag) {
 }
 
 function showMoreTags(elMore) {
+    document.querySelector('.tags-container').classList.toggle('more')
     if (elMore.innerText === 'more...') {
         renderTags(true)
         elMore.innerText = 'less...'
@@ -205,4 +206,9 @@ function renderSearhList() {
         return `<option value="${tag.value}"></option>`
     })
     document.getElementById('tags').innerHTML = strHTML.join('')
+}
+
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-open');
 }
