@@ -13,27 +13,81 @@ var gKeywords = { 'happy': 12, 'funny puk': 1 };
 var gElCanvas = document.getElementById('my-canvas');
 var gCtx;
 var gImgs = [
-    { id: 2, url: 'images/2.jpg', keywords: ['happy'] },
-    { id: 1, url: 'images/1.jpg', keywords: ['happy'] },
-    { id: 3, url: 'images/3.jpg', keywords: ['happy'] },
-    { id: 4, url: 'images/4.jpg', keywords: ['happy'] },
-    { id: 5, url: 'images/5.jpg', keywords: ['happy'] },
-    { id: 6, url: 'images/6.jpg', keywords: ['happy'] },
-    { id: 7, url: 'images/7.jpg', keywords: ['happy'] },
-    { id: 8, url: 'images/8.jpg', keywords: ['happy'] },
-    { id: 9, url: 'images/9.jpg', keywords: ['happy'] },
-    { id: 10, url: 'images/10.jpg', keywords: ['happy'] },
-    { id: 11, url: 'images/11.jpg', keywords: ['happy'] },
-    { id: 12, url: 'images/12.jpg', keywords: ['happy'] },
-    { id: 13, url: 'images/13.jpg', keywords: ['happy'] },
-    { id: 14, url: 'images/14.jpg', keywords: ['happy'] },
-    { id: 15, url: 'images/15.jpg', keywords: ['happy'] },
-    { id: 16, url: 'images/16.jpg', keywords: ['happy'] },
-    { id: 17, url: 'images/17.jpg', keywords: ['happy'] },
-    { id: 18, url: 'images/18.jpg', keywords: ['happy'] },
+    { id: 1, url: 'images/2.jpg', keywords: ['happy', 'nature'] },
+    { id: 2, url: 'images/1.jpg', keywords: ['politics', 'celebrity', 'trump'] },
+    { id: 3, url: 'images/3.jpg', keywords: ['happy', 'animal', 'love'] },
+    { id: 4, url: 'images/4.jpg', keywords: ['babe', 'nature'] },
+    { id: 5, url: 'images/5.jpg', keywords: ['babe', 'love', 'animal', 'sleep'] },
+    { id: 6, url: 'images/6.jpg', keywords: ['animal', 'sleep'] },
+    { id: 7, url: 'images/7.jpg', keywords: ['happy', 'celebrity', 'movie', 'smyle'] },
+    { id: 8, url: 'images/8.jpg', keywords: ['babe', 'happy', 'nature'] },
+    { id: 9, url: 'images/9.jpg', keywords: ['celebrity'] },
+    { id: 10, url: 'images/10.jpg', keywords: ['celebrity', 'movie'] },
+    { id: 11, url: 'images/11.jpg', keywords: ['celebrity', 'movie'] },
+    { id: 12, url: 'images/12.jpg', keywords: ['celebrity', 'movie'] },
+    { id: 13, url: 'images/13.jpg', keywords: ['babe', 'nature'] },
+    { id: 14, url: 'images/14.jpg', keywords: ['politics', 'celebrity', 'trump'] },
+    { id: 15, url: 'images/15.jpg', keywords: ['happy', 'babe'] },
+    { id: 16, url: 'images/16.jpg', keywords: ['happy', 'animal'] },
+    { id: 17, url: 'images/17.jpg', keywords: ['happy', 'politics', 'celebrity', 'smyle'] },
+    { id: 18, url: 'images/19.jpg', keywords: ['celebrity'] },
+    { id: 19, url: 'images/20.jpg', keywords: ['happy', 'celebrity', 'movie', 'smyle'] },
+    { id: 20, url: 'images/21.jpg', keywords: ['celebrity', 'movie'] },
+    { id: 21, url: 'images/22.jpg', keywords: ['happy', 'celebrity', 'movie'] },
+    { id: 22, url: 'images/23.jpg', keywords: ['happy', 'celebrity'] },
+    { id: 23, url: 'images/24.jpg', keywords: ['happy', 'celebrity', 'smyle'] },
+    { id: 24, url: 'images/25.jpg', keywords: ['politics', 'celebrity'] },
+    { id: 25, url: 'images/25.jpg', keywords: ['movie'] },
 ];
+var gTags = [
+    {
+        value: 'happy',
+        rate: 5
+    },
+    {
+        value: 'animal',
+        rate: 7
+    },
+    {
+        value: 'celebrity',
+        rate: 3
+    },
+    {
+        value: 'politics',
+        rate: 4
+    },
+    {
+        value: 'love',
+        rate: 4
+    },
+    {
+        value: 'babe',
+        rate: 2
+    },
+    {
+        value: 'sleep',
+        rate: 1
+    },
+    {
+        value: 'movie',
+        rate: 3
+    },
+    {
+        value: 'trump',
+        rate: 5
+    },
+    {
+        value: 'nature',
+        rate: 3
+    },
+    {
+        value: 'smyle',
+        rate: 6
+    },
+]
 var gMeme;
 var gStoredImages = [];
+var gFilterBy;
 
 
 function refresh() {
@@ -284,7 +338,7 @@ function changeFontColor(color) {
 function renderIcons() {
     var iconsToShow = gIconsUnicode.slice(gIconsPage, gIconsPage + gIconsPerPage)
     var strHTML = iconsToShow.map((icon, idx) => {
-        return `<div onclick="onChoseIcon(${idx})">
+        return `<div class="pointer" onclick="onChoseIcon(${idx})">
         <i class="flex align-center">&#x${icon};</i>
         </div>`
     })
@@ -340,4 +394,34 @@ function loadImages() {
     if (!storedImages || !storedImages.length) return
     gStoredImages = storedImages;
     return storedImages;
+}
+
+function getTags(all) {
+    let tagsToShow = all? gTags.slice() : gTags.slice(0, 4)
+    return tagsToShow
+}
+
+function getImagesToShow() {
+    var images = gImgs.slice()
+    if (!gFilterBy) return images
+    var imagesToShow = []
+    images.forEach((image) => {
+        let isShow = image.keywords.find((keyword) => {
+            return gFilterBy === keyword
+        })
+        if (isShow) imagesToShow.push(image)
+    })
+    console.log('imagesToShow:', imagesToShow)
+    return imagesToShow
+}
+
+function setFilter(tag) {
+    gFilterBy = tag
+    let currTag = gTags.find((cTag) => {
+        return cTag.value === tag
+    })
+    if (!currTag) return
+
+    if (currTag.rate >= 10) return
+    currTag.rate++
 }

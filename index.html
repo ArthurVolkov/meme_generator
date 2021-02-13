@@ -23,14 +23,13 @@
 
     <section class="search-bar">
         <div class="main-container flex justify-between align-center">
-            <input type="search" placeholder="search">
-            <div class="tags-container flex">
-                <div class="tag flex align-center">tag</div>
-                <div class="tag flex align-center">tag</div>
-                <div class="tag flex align-center">tag</div>
-                <div class="tag flex align-center">tag</div>
-                <div class="tag flex align-center">tag</div>
-            </div>
+            <form class="search-form flex" onsubmit="onSearch()">
+                <input class="search-input" type="search" list="tags" placeholder="search">
+                    <datalist id="tags"></datalist>
+                <button class="pointer">🔎</button>
+            </form>
+            <div class="tags-container flex"></div>
+            <div class="more-tags pointer" onclick="showMoreTags(this)">more...</div>
         </div>
     </section>
 
@@ -88,7 +87,7 @@
         </section>
     </main>
 
-    <main class="main-container saved-images hidden"></main>
+    <main class="main-container images-container saved-images hidden"></main>
 
     <footer class="footer flex flex-col align-center">
         <div class="logo-container"><img src="images/LOGO.png" alt="logo"></div>

@@ -1,17 +1,41 @@
 'use strict'
 
 function init() {
-    renderImages(18)
+    renderImages()
     gCtx = gElCanvas.getContext('2d');
     addListeners()
+    renderTags()
+    renderSearhList()
 }
 
-function renderImages(count) {
-    var strHTML = ``
-    for (var i = 1; i <= count; i++) {
-        strHTML += `<img src="images/${i}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${i})">`
-    }
-    document.querySelector('.images-container').innerHTML = strHTML
+function renderImages() {
+    var imagesToShow = getImagesToShow()
+    var strHTML = imagesToShow.map((image) => {
+        return `<img src="images/${image.id}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${image.id})">`
+    })
+
+    // var strHTML = ``
+    // for (var i = 1; i <= count; i++) {
+    //     strHTML += `<img src="images/${i}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${i})">`
+    // }
+    document.querySelector('.images-container').innerHTML = strHTML.join('')
+    /////////////
+    var images = Array.from(document.querySelectorAll('.galery-img'))
+    // console.log('images:', images)
+    // var imagesXY = []
+    // images.forEach((image) => {
+    //     let imageX = image.naturalWidth;
+    //     let imageY = image.naturalHeight;
+    //     imagesXY.push([imageX, imageY])
+    // })
+    // console.log('imagesXY:', imagesXY)
+    images.forEach((image) => {
+        if (Math.abs((image.naturalWidth - image.naturalHeight) < image.naturalWidth / 10)) {
+            image.classList.add('box')
+        } else if (image.naturalWidth < image.naturalHeight) {
+            image.classList.add('portrait')
+        } else image.classList.add('landscape')
+    })
 }
 
 function onMemeEditor(idx) {
@@ -82,14 +106,17 @@ function onOpenShare() {
 
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container');
+    var images = Array.from(document.querySelectorAll('.galery-img'))
+    var curImg = images[gMeme.selectedImgId - 1]
+    var aspect = curImg.naturalWidth / curImg.naturalHeight
     let aspectX = []
     let aspectY = []
     gMeme.lines.forEach((line) => {
         aspectX.push(gElCanvas.width / line.pos.x)
         aspectY.push(gElCanvas.height / line.pos.y)
     })
-    gElCanvas.width = elContainer.offsetWidth 
-    gElCanvas.height = elContainer.offsetWidth
+    gElCanvas.width = elContainer.offsetWidth
+    gElCanvas.height = elContainer.offsetWidth / aspect
     gMeme.lines.forEach((line, idx) => {
         line.pos.x = gElCanvas.width / aspectX[idx]
         line.pos.y = gElCanvas.height / aspectY[idx]
@@ -108,11 +135,23 @@ function onSave() {
 
 function renderStored() {
     var images = loadImages()
-    if(!images) return
+    if (!images) return
     var strHTML = images.map((image) => {
-        return `<img src="${image}"/>`
+        return `<img src="${image}" class="saved-img"/>`
     })
     document.querySelector('.saved-images').innerHTML = strHTML.join('')
+    var images = Array.from(document.querySelectorAll('.saved-img'))
+    setTimeout(() => {
+        images.forEach((image) => {
+            console.log('image.naturalHeight:', image.naturalHeight)
+            console.log('image.naturalWidth:', image.naturalWidth)
+            if (Math.abs((image.naturalWidth - image.naturalHeight) < image.naturalWidth / 10)) {
+                image.classList.add('box')
+            } else if (image.naturalWidth < image.naturalHeight) {
+                image.classList.add('portrait')
+            } else image.classList.add('landscape')
+        })
+    }, 10)
 }
 
 function onSaved() {
@@ -121,4 +160,49 @@ function onSaved() {
     document.querySelector('.meme-editor').classList.add('hidden')
     document.querySelector('.search-bar').classList.add('hidden')
     document.querySelector('.saved-images').classList.remove('hidden')
+}
+
+function renderTags(all = false) {
+    let tags = getTags(all)
+    var strHTML = tags.map((tag) => {
+        return `<div class="tag pointer flex align-center tag-size-${tag.rate}" onclick="onFilter(this)">${tag.value}</div>`
+    })
+    document.querySelector('.tags-container').innerHTML = strHTML.join('')
+}
+
+function onFilter(elTag) {
+    setFilter(elTag.innerText)
+    let elMore = document.querySelector('.more-tags')
+    if (elMore.innerText === 'more...') {
+        renderTags()
+    } else {
+        renderTags(true)
+    }
+    renderImages()
+}
+
+function showMoreTags(elMore) {
+    if (elMore.innerText === 'more...') {
+        renderTags(true)
+        elMore.innerText = 'less...'
+    } else {
+        renderTags()
+        elMore.innerText = 'more...'
+    }
+}
+
+function onSearch() {
+    var elInput = document.querySelector('.search-input')
+    // console.log('elInput.value:', elInput.value)
+    setFilter(elInput.value)
+    renderTags()
+    renderImages()
+}
+
+function renderSearhList() {
+    var tags = getTags(true)
+    var strHTML = tags.map((tag) => {
+        return `<option value="${tag.value}"></option>`
+    })
+    document.getElementById('tags').innerHTML = strHTML.join('')
 }
