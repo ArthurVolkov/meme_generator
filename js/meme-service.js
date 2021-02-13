@@ -91,9 +91,10 @@ var gFilterBy;
 
 
 function refresh() {
+    let imgId = (gMeme) ? gMeme.selectedImgId : 1
     gMeme = {
         isSave: false,
-        selectedImgId: 5,
+        selectedImgId: imgId,
         selectedLineIdx: 0,
         lines: [
             {
@@ -309,7 +310,7 @@ function alignLine(pos) {
 
 function changeSize(diff) {
     if (gMeme.lines.length === 0) return
-    if (gMeme.lines[gMeme.selectedLineIdx].size + diff <= 20 ||
+    if (gMeme.lines[gMeme.selectedLineIdx].size + diff <= 10 ||
         gMeme.lines[gMeme.selectedLineIdx].size + diff >= 120) return
     gMeme.lines[gMeme.selectedLineIdx].size += diff
     renderCanvas()
