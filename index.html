@@ -15,8 +15,12 @@
 
     <header class="header">
         <div class="main-container flex justify-between align-center">
-            <div class="logo-container"><img src="images/LOGO.png" alt="logo"></div>
+            <div class="logo-container pointer" onclick="onGalery()"><img src="images/LOGO.png" alt="logo"></div>
             <ul class="main-menu clean-list flex">
+                <li>
+                    <label for="upload" class="upload-label flex align-center pointer">Upload</label>
+                    <input type="file" class="file-input btn" name="image" id="upload" onchange="onImgInput(event)" />
+                </li>
                 <li><a class="flex align-center" href="#" onclick="onGalery()">Galery</a></li>
                 <li><a class="flex align-center" href="#" onclick="onSaved()">Memes</a></li>
             </ul>
@@ -26,7 +30,7 @@
 
     <section class="search-bar">
         <div class="search-bar-container main-container flex justify-between align-center">
-            <form class="search-form flex" onsubmit="onSearch()">
+            <form class="search-form flex" onsubmit="onSearch(event)">
                 <input class="search-input" type="search" list="tags" placeholder="search">
                 <datalist id="tags"></datalist>
                 <button class="pointer">🔎</button>
@@ -86,7 +90,12 @@
                     <li><a class="flex justify-center align-center" href="#" onclick="onSave()">Save</a></li>
                     <li><a class="download flex justify-center align-center" href="#" onclick="onDownload(this)"
                             download="my-meme.jpeg">Download</a></li>
-                    <li><a class="flex justify-center align-center" href="#" onclick="">Share on Facebook</a></li>
+                    <li>
+                        <form class="flex justify-center align-center" action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                            <input name="img" id="imgData" type="hidden" />
+                            <button class="share-btn btn" type="submit">Share on Facebook</button>
+                        </form>
+                    </li>
                 </ul>
             </section>
         </section>
@@ -102,6 +111,7 @@
     <script src="js/storage.serice.js"></script>
     <script src="js/meme-service.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/upload-service.js"></script>
 </body>
 
 </html>

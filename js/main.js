@@ -2,7 +2,7 @@
 
 function init() {
     renderImages()
-    setTimeout(() => renderImages(), 500)
+    setTimeout(() => setImgsSize(), 1000)
     gCtx = gElCanvas.getContext('2d');
     addListeners()
     renderTags()
@@ -12,9 +12,12 @@ function init() {
 function renderImages() {
     var imagesToShow = getImagesToShow()
     var strHTML = imagesToShow.map((image) => {
-        return `<img src="images/${image.id}.jpg" alt="photo" class="galery-img" onclick="onMemeEditor(${image.id})">`
+        return `<img src="images/${image.id}.jpg" alt="photo" class="galery-img pointer" onclick="onMemeEditor(${image.id})">`
     })
     document.querySelector('.images-container').innerHTML = strHTML.join('')
+}
+
+function setImgsSize() {
     var images = Array.from(document.querySelectorAll('.galery-img'))
     images.forEach((image) => {
         if (Math.abs((image.naturalWidth - image.naturalHeight) < image.naturalWidth / 10)) {
@@ -26,9 +29,9 @@ function renderImages() {
 }
 
 function onMemeEditor(idx) {
-    document.querySelector('.images-container').classList.toggle('hidden')
-    document.querySelector('.meme-editor').classList.toggle('hidden')
-    document.querySelector('.search-bar').classList.toggle('hidden')
+    document.querySelector('.images-container').classList.add('hidden')
+    document.querySelector('.meme-editor').classList.remove('hidden')
+    document.querySelector('.search-bar').classList.add('hidden')
     document.querySelector('.saved-images').classList.add('hidden')
     refresh()
     updateMeme(idx)
@@ -87,6 +90,12 @@ function onIconsPaging(diff) {
 }
 
 function onOpenShare() {
+    // if (document.body.classList.contains('menu-open')) {
+    //     document.body.classList.toggle('menu-open')
+    // }
+    // if (!document.querySelector('.share').classList.contains('open')) {
+    //     toggleMenu()
+    // }
     document.querySelector('.share').classList.toggle('open')
     removeBorder()
 }
@@ -94,7 +103,7 @@ function onOpenShare() {
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container');
     var images = Array.from(document.querySelectorAll('.galery-img'))
-    var curImg = images[gMeme.selectedImgId - 1]
+    var curImg = gImg ? gImg : images[gMeme.selectedImgId - 1]
     var aspect = curImg.naturalWidth / curImg.naturalHeight
     let aspectX = []
     let aspectY = []
@@ -109,22 +118,42 @@ function resizeCanvas() {
         line.pos.y = gElCanvas.height / aspectY[idx]
     })
 }
+// function resizeCanvas() {
+//     const elContainer = document.querySelector('.canvas-container');
+//     var images = Array.from(document.querySelectorAll('.galery-img'))
+//     var curImg = images[gMeme.selectedImgId - 1]
+//     var aspect = curImg.naturalWidth / curImg.naturalHeight
+//     let aspectX = []
+//     let aspectY = []
+//     gMeme.lines.forEach((line) => {
+//         aspectX.push(gElCanvas.width / line.pos.x)
+//         aspectY.push(gElCanvas.height / line.pos.y)
+//     })
+//     gElCanvas.width = elContainer.offsetWidth
+//     gElCanvas.height = elContainer.offsetWidth / aspect
+//     gMeme.lines.forEach((line, idx) => {
+//         line.pos.x = gElCanvas.width / aspectX[idx]
+//         line.pos.y = gElCanvas.height / aspectY[idx]
+//     })
+// }
 
 function onDownload(elLink) {
     download(elLink)
     document.querySelector('.share').classList.remove('open')
+    document.body.classList.toggle('menu-open')
 }
 
 function onSave() {
     saveImage()
     document.querySelector('.share').classList.remove('open')
+    document.body.classList.toggle('menu-open')
 }
 
 function renderStored() {
     var images = loadImages()
     if (!images) return
-    var strHTML = images.map((image) => {
-        return `<img src="${image}" class="saved-img"/>`
+    var strHTML = images.map((image, idx) => {
+        return `<img src="${image[0]}" class="saved-img pointer" onclick="onEditMeme(${idx})"/>`
     })
     document.querySelector('.saved-images').innerHTML = strHTML.join('')
     var images = Array.from(document.querySelectorAll('.saved-img'))
@@ -137,6 +166,27 @@ function renderStored() {
             } else image.classList.add('landscape')
         })
     }, 10)
+}
+
+function onEditMeme(idx) {
+    var images = loadImages()
+    var image = images[idx]
+
+    if(image[1].isUploaded) {
+        // gImg = {src: image[0]}
+        gImg = new Image()
+        gImg.src = image[0]
+        // refresh()
+        // renderCanvas()
+        loadImage()
+    } else {
+        console.log('image:', image)
+        onMemeEditor(image[1].selectedImgId)
+        setMeme(image[1])
+        renderCanvas()
+
+    }
+
 }
 
 function onSaved() {
@@ -177,7 +227,8 @@ function showMoreTags(elMore) {
     }
 }
 
-function onSearch() {
+function onSearch(ev) {
+    ev.preventDefault()
     var elInput = document.querySelector('.search-input')
     setFilter(elInput.value)
     renderTags()
@@ -194,4 +245,7 @@ function renderSearhList() {
 
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
+    // if (document.querySelector('.share').classList.contains('open')) {
+    //     document.querySelector('.share').classList.toggle('open')
+    // }
 }

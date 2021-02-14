@@ -91,7 +91,7 @@ var gFilterBy;
 
 
 function refresh() {
-    let imgId = (gMeme) ? gMeme.selectedImgId : 1
+    let imgId = (gMeme) ? gMeme.selectedImgId : 0
     gMeme = {
         isSave: false,
         selectedImgId: imgId,
@@ -127,8 +127,13 @@ function refresh() {
     }
 }
 
-function updateMeme(idx) {
+function setMeme(meme) {
+    gMeme = meme
+}
+
+function updateMeme(idx = 0) {
     gMeme.selectedImgId = idx;
+    gImg = null
 }
 
 function updateText(elInput) {
@@ -143,13 +148,32 @@ function renderCanvas() {
 
 function drawImg(idx, callback) {
     gMeme.selectedImgId = idx
-    const img = new Image()
-    img.src = `images/${gMeme.selectedImgId}.jpg`;
-    img.onload = () => {
+
+    var img;
+    if (gImg) {
+        img = gImg;
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
         callback()
     }
+    else {
+        img = new Image()
+        img.src = `images/${gMeme.selectedImgId}.jpg`;
+        img.onload = () => {
+            gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+            callback()
+        }
+    }
 }
+
+// function drawImg(idx, callback) {
+//     gMeme.selectedImgId = idx
+//     const img = new Image()
+//     img.src = `images/${gMeme.selectedImgId}.jpg`;
+//     img.onload = () => {
+//         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+//         callback()
+//     }
+// }
 
 function renderText() {
     let currLineIdx = gMeme.selectedLineIdx;
@@ -215,6 +239,7 @@ function onDown(ev) {
     if (!isLineClicked(pos)) return
     gMeme.lines[gMeme.selectedLineIdx].isDragging = true
     document.body.style.cursor = 'grabbing'
+    document.querySelector('.input-text').value = gMeme.lines[gMeme.selectedLineIdx].txt
     renderCanvas()
 }
 
@@ -380,6 +405,8 @@ function saveImage() {
     renderCanvas()
     setTimeout(() => {
         var imgContent = gElCanvas.toDataURL('image/jpeg')
+        imgContent = [imgContent, gMeme]
+
         gStoredImages.push(imgContent)
         saveToStorage('images', gStoredImages)
         gMeme.isSave = false
@@ -395,7 +422,7 @@ function loadImages() {
 }
 
 function getTags(all) {
-    let tagsToShow = all? gTags.slice() : gTags.slice(0, 4)
+    let tagsToShow = all ? gTags.slice() : gTags.slice(0, 4)
     return tagsToShow
 }
 

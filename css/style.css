@@ -35,13 +35,10 @@ button {
 }
 
 input, select {
-    font-size: 1.7em;
+    font-size: 1.5em;
     outline: none;
     border: none;
-}
-
-select {
-    font-size: 1.7em;
+    border-radius: 5px;
 }
 
 /* COMPONENTS */
@@ -53,13 +50,14 @@ select {
     top: 0;
     width: 100%;
     background-color: orange;
+    z-index: 30;
 }
 
 .logo-container img{
     height: 40px;   
 }
 
-.header a{
+.header a, header label{
     height: 50px;
     padding: 0 20px;
     color: white;
@@ -67,11 +65,23 @@ select {
     font-weight: 800;
 }
 
+.header a:hover, header label:hover{
+    background-color: rgb(254 110 32);
+}
+
 .menu-btn {
     display: block;
     border-radius: .2em;
     height: 30px;
     margin: 10px 0 10px;
+}
+
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    height: 100%;
 }
 
 .main-menu {
@@ -136,6 +146,7 @@ body.menu-open .main-screen {
 .search-bar .search-form input {
     border: none;
     outline: none;
+    
 }
 
 .search-bar .search-form button {
@@ -167,34 +178,39 @@ body.menu-open .main-screen {
 
 .images-container, .saved-images {
     display: grid;
-    grid-template-columns: repeat(3, 26vw);
-    grid-auto-rows: 26vw;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: auto;
     grid-auto-flow: dense;
     gap: 10px 10px;
+}
+
+.images-container img {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: width .5s, top .5s;
+}
+
+.images-container img:hover {
+    width: 102%;
+    top: -3px;
 }
 
 .images-container img.box, .saved-images img.box {
     grid-column: auto / span 3;
     grid-row: auto / span 3;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .images-container img.landscape , .saved-images img.landscape {
     grid-column: auto / span 3;
     grid-row: auto / span 2;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
 
 .images-container img.portrait , .saved-images img.portrait {
-    grid-column: auto / span 2;
-    grid-row: auto / span 3;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    grid-column: auto / span 3;
+    grid-row: auto / span 4;
 }
 
 .tag {
@@ -275,15 +291,24 @@ body.menu-open .main-screen {
     height: 100%;
 }
 
-.control-box button{
+.control-box button {
     font-size: 1.7em;
-    background-color: palegreen;
+    background-color: rgb(254 110 32);
     border-radius: 5px;
     height: 1.5em;
 }
 
-.control-box > *:hover:not(.icons-container){
-    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+.control-box form :last-child{
+    border-radius: 0;
+}
+
+.control-box form :last-child:hover{
+    box-shadow: 0px 0px 2px 2px rgb(254 110 32);
+}
+
+.control-box > *:hover:not(.icons-container, .share), .control-box button:hover{
+    transition: box-shadow .2s;
+    box-shadow: 0px 0px 2px 2px orange;
 }
 
 /* LINE-BTNS */
@@ -307,14 +332,14 @@ body.menu-open .main-screen {
 }
 
 .control-box .size-up {
-    background: url(../images/icons/increase\ font\ -\ icon.png) center no-repeat palegreen;
+    background: url(../images/icons/increase\ font\ -\ icon.png) center no-repeat rgb(254 110 32);
     background-size: contain;
     grid-column: 1 / 2;
     grid-row: 3 / 4;
 }
 
 .control-box .size-down {
-    background: url(../images/icons/decrease\ font\ -\ icon.png) center no-repeat palegreen;
+    background: url(../images/icons/decrease\ font\ -\ icon.png) center no-repeat rgb(254 110 32);
     background-size: contain;
     grid-column: 5 / 6;
     grid-row: 3 / 4;
@@ -329,21 +354,21 @@ body.menu-open .main-screen {
 /* ALIGN BTNS */
 
 .control-box .line-left {
-    background: url(../images/icons/align-to-left.png) center no-repeat palegreen;
+    background: url(../images/icons/align-to-left.png) center no-repeat rgb(254 110 32);
     background-size: contain;
     grid-column: 2 / 3;
     grid-row: 3 / 4;
 }
 
 .control-box .line-center {
-    background: url(../images/icons/center-text-alignment.png) center no-repeat palegreen;
+    background: url(../images/icons/center-text-alignment.png) center no-repeat rgb(254 110 32);
     background-size: contain;
     grid-column: 3 / 4;
     grid-row: 3 / 4;
 }
 
 .control-box .line-right {
-    background: url(../images/icons/align-to-right.png) center no-repeat palegreen;
+    background: url(../images/icons/align-to-right.png) center no-repeat rgb(254 110 32);
     background-size: contain;
     grid-column: 4 / 5;
     grid-row: 3 / 4;
@@ -413,7 +438,8 @@ body.menu-open .main-screen {
 
 .icons-container div:hover:not(.icons-to-render), .icons-container button:hover{
     border-radius: 10px;
-    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+    transition: box-shadow .2s;
+    box-shadow: 0px 0px 3px 3px orange;
 }
 
 /* SHARE_DROPDOWN */
@@ -433,21 +459,24 @@ body.menu-open .main-screen {
 .share-drop {
     height: auto;
     position: absolute;
-    bottom: 4em;
+    bottom: 2.7em;
     max-height: 0;
     opacity: 0;
     color: black;
     transform: scaleX(0);
     border-radius: 10px;
     transition: max-height .6s, bottom 1s, max-width .6s ,opacity 1s .3s, transform .6s;
-    background-color: orange;
 }
 
-.share-drop a {
+.share-drop a, .share-drop button {
     text-align: center;
     font-size: 1.5em;
+    font-family: 'Times New Roman', Times, serif;
     height: 3em;
     color: white;
+    background-color: orange;
+    /* border-radius: 10px; */
+
 }
 
 .share-drop > *:not(:last-child) {
@@ -459,12 +488,14 @@ body.menu-open .main-screen {
     display: block;
     opacity: 1;
     transform: scaleX(1);
-
+    border-radius: 10px;
 }
 
 .share-drop li:hover{
-    border-radius: 10px;
-    box-shadow: 0px 0px 3px 3px rgba(235, 92, 9, 0.7);
+    /* border-radius: 10px; */
+    transition: box-shadow .2s;
+    box-shadow: 0px 0px 3px 3px rgb(254 110 32);
+    z-index: 20;
 }
 
 /* SAVED-IMAGES */
@@ -580,7 +611,7 @@ body.menu-open .main-screen {
     }
 
     .images-container, .saved-images {
-        grid-template-columns: repeat(21,22.5px);
+        grid-template-columns: repeat(21, 1fr);
         grid-auto-rows: 22.5px;
     }
 
@@ -612,6 +643,10 @@ body.menu-open .main-screen {
         width: 40%;
         max-height: 70vh;
     } 
+
+    .share {
+        width: 8em;
+    }
 }
 
 /* MEDIUM */
@@ -622,7 +657,7 @@ body.menu-open .main-screen {
     }
 
     .images-container, .saved-images {
-        grid-template-columns: repeat(21,32px);
+        grid-template-columns: repeat(21, 1fr);
         grid-auto-rows: 32px;
     }
 
